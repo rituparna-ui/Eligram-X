@@ -1,0 +1,39 @@
+<mat-toolbar color="primary" class="nav">
+  <div class="d-flex align-items-center">
+    <span class="navbtn"
+      ><button mat-icon-button (click)="drawer.toggle()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </span>
+    <div>Eligram-X</div>
+  </div>
+  <div class="toHideOnMedia">
+    <ul class="ul">
+      <li class="li" *ngFor="let route of routes">
+        <a class="a" [routerLink]="route.route" routerLinkActive="active">{{
+          route.name
+        }}</a>
+      </li>
+    </ul>
+  </div>
+</mat-toolbar>
+
+<mat-drawer-container class="container-auto" autosize>
+  <mat-drawer #drawer class="sidenav" mode="over">
+    <div class="navout">
+      <h1 class="text-center">Menu</h1>
+      <mat-divider></mat-divider>
+      <ul class="side-ul">
+        <li class="side-li" *ngFor="let route of routes">
+          <a class="side-li-a" mat-flat-button [routerLink]="route.route">{{
+            route.name
+          }}</a>
+        </li>
+      </ul>
+    </div>
+  </mat-drawer>
+  <div>
+    <br />
+    <router-outlet></router-outlet>
+  </div>
+</mat-drawer-container>
