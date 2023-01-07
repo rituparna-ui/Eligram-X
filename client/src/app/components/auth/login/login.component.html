@@ -1,0 +1,45 @@
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <h1>Login</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <form>
+        <div>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Email</mat-label>
+            <input matInput placeholder="Eg. john@doe.com" />
+          </mat-form-field>
+        </div>
+        <div>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Password</mat-label>
+            <input matInput placeholder="Password" />
+          </mat-form-field>
+        </div>
+        <div>
+          <button mat-raised-button color="primary" class="w-100">Login</button>
+          <br />
+          <br />
+          <a
+            [routerLink]="['/auth', 'signup']"
+            mat-raised-button
+            style="background-color: teal; color: white"
+            class="w-100"
+          >
+            Create an Account
+          </a>
+          <br />
+          <br />
+          <button
+            mat-raised-button
+            style="background-color: brown; color: white"
+            class="w-100"
+          >
+            Forgot Password ?
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

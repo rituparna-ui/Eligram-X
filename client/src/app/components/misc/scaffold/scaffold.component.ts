@@ -8,7 +8,7 @@ import { Component } from '@angular/core';
 export class ScaffoldComponent {
   routes = [
     { name: 'Log In', route: '/auth/login' },
-    { name: 'Sign Up', route: '/about/signup' },
+    { name: 'Sign Up', route: '/auth/signup' },
   ];
   constructor() {}
 }

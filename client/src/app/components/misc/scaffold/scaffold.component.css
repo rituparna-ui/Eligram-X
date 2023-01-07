@@ -14,9 +14,6 @@
   color: white;
 }
 
-/* .active {
-} */
-
 .li {
   margin: 0 8px;
 }
@@ -46,6 +43,14 @@
   width: 100%;
 }
 
+.mat-toolbar.mat-primary {
+  background-color: #191f3e;
+}
+
+.active {
+  border-bottom: 1px solid wheat;
+  padding-bottom: 6px;
+}
 @media (max-width: 575px) {
   .container-auto {
     height: calc(100vh - 56px);

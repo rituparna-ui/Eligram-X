@@ -1,0 +1,12 @@
+.w-49 {
+  width: 49.5%;
+}
+
+@media (max-width: 767px) {
+  .d-flex {
+    flex-direction: column;
+  }
+  .w-49 {
+    width: 100%;
+  }
+}
