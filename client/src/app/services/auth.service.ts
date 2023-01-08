@@ -3,7 +3,8 @@ import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
-import { SignUpForm, SignUpResponse } from '../models/signup.model';
+import { SignUpForm, AuthResponse, LoginForm } from '../models/auth.model';
+import { AuthServiceUser } from '../models/authUser.model';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,7 @@ export class AuthService {
   private token: string = '';
   private isAuth: boolean = false;
   private authNotifier: Subject<boolean> = new Subject<boolean>();
+  private user: AuthServiceUser = { id: '', role: '', state: -1 };
 
   constructor(
     private http: HttpClient,
@@ -25,6 +27,19 @@ export class AuthService {
     this.token = token;
     this.isAuth = true;
     this.authNotifier.next(true);
+    try {
+      this.user = JSON.parse(window.atob(token.split('.')[1]));
+    } catch (error) {
+      this.postLogout();
+    }
+  }
+
+  postLogout() {
+    localStorage.removeItem('token');
+    this.token = '';
+    this.isAuth = false;
+    this.authNotifier.next(false);
+    this.router.navigate(['/auth', 'login']);
   }
 
   autoLogin() {
@@ -33,6 +48,7 @@ export class AuthService {
       this.router.navigate(['/auth', 'login']);
       return;
     }
+    this.postLogin(token);
   }
 
   getToken() {
@@ -47,13 +63,27 @@ export class AuthService {
     return this.isAuth;
   }
 
+  getUser() {
+    return this.user;
+  }
+
   signUp(user: SignUpForm) {
     this.http
-      .post<SignUpResponse>(this.API + '/auth/signup', user)
+      .post<AuthResponse>(this.API + '/auth/signup', user)
       .subscribe((res) => {
         this.snackBar.open(res.message, '', { duration: 2000 });
         this.postLogin(res.token);
         this.router.navigate(['/auth', 'verify-email']);
+      });
+  }
+
+  login(user: LoginForm) {
+    this.http
+      .post<AuthResponse>(this.API + '/auth/login', user)
+      .subscribe((res) => {
+        this.snackBar.open(res.message, '', { duration: 2000 });
+        this.postLogin(res.token);
+        this.router.navigate(['/']);
       });
   }
 }

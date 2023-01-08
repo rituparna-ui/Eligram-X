@@ -7,7 +7,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { SignUpForm } from 'src/app/models/signup.model';
+import { SignUpForm } from 'src/app/models/auth.model';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({

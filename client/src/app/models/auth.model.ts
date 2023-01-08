@@ -6,8 +6,13 @@ export interface SignUpForm {
   confirmPassword: string;
 }
 
-export interface SignUpResponse {
+export interface AuthResponse {
   message: string;
   status: number;
   token: string;
+}
+
+export interface LoginForm {
+  email: string;
+  password: string;
 }

@@ -51,6 +51,12 @@
   border-bottom: 1px solid wheat;
   padding-bottom: 6px;
 }
+
+.brand {
+  text-decoration: none;
+  color: white;
+}
+
 @media (max-width: 575px) {
   .container-auto {
     height: calc(100vh - 56px);
