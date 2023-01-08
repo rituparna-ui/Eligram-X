@@ -11,6 +11,11 @@ import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { FeedComponent } from './components/home/feed/feed.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { TokenInterceptor } from './interceptors/token.interceptor';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { VerifyEmailComponent } from './components/auth/verify-email/verify-email.component';
+import { CompleteProfileComponent } from './components/auth/complete-profile/complete-profile.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +24,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     LoginComponent,
     SignupComponent,
     FeedComponent,
+    VerifyEmailComponent,
+    CompleteProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -27,8 +34,20 @@ import { ReactiveFormsModule } from '@angular/forms';
     LayoutModule,
     MaterialModule,
     ReactiveFormsModule,
+    HttpClientModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ErrorInterceptor,
+      multi: true,
+    },
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

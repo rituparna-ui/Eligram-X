@@ -8,12 +8,14 @@ import { MatListModule } from '@angular/material/list';
 import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 const material = [
   MatIconModule,
   MatListModule,
   MatCardModule,
   MatInputModule,
+  MatSnackBarModule,
   MatButtonModule,
   MatToolbarModule,
   MatSidenavModule,

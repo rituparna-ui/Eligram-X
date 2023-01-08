@@ -7,6 +7,8 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { SignUpForm } from 'src/app/models/signup.model';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-signup',
@@ -17,6 +19,8 @@ export class SignupComponent implements OnInit {
   signupForm: FormGroup = new FormGroup({});
   showPassword: boolean = false;
   showConfirmPassword: boolean = false;
+
+  constructor(private authService: AuthService) {}
 
   ngOnInit(): void {
     this.signupForm = new FormGroup({
@@ -32,13 +36,6 @@ export class SignupComponent implements OnInit {
         this.confirmPasswordValidator(),
       ]),
     });
-  }
-
-  onSubmit() {
-    if (this.signupForm.invalid) {
-      return;
-    }
-    console.log(this.signupForm.value);
   }
 
   togglePasswordVisibility() {
@@ -57,5 +54,13 @@ export class SignupComponent implements OnInit {
         return null;
       }
     };
+  }
+
+  onSubmit() {
+    if (this.signupForm.invalid) {
+      return;
+    }
+    const form: SignUpForm = this.signupForm.value;
+    this.authService.signUp(form);
   }
 }
