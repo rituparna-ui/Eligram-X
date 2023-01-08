@@ -57,7 +57,26 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-exports.verifyToken = async (req, res, next) => {};
+exports.verifyToken = async (req, res, next) => {
+  const errors = validationResult(req);
+  try {
+    if (!errors.isEmpty()) {
+      throw new Error();
+    }
+    jwt.verify(req.body.token, 'secret');
+    return res.status(200).json({
+      message: 'Token valid',
+      status: 200,
+      valid: true,
+    });
+  } catch (error) {
+    return res.status(200).json({
+      message: 'Token invalid',
+      status: 200,
+      valid: false,
+    });
+  }
+};
 
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;

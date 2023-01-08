@@ -49,6 +49,17 @@ export class AuthService {
       return;
     }
     this.postLogin(token);
+    this.http
+      .post<{
+        message: string;
+        status: number;
+        valid: boolean;
+      }>(this.API + '/auth/verify-token', { token })
+      .subscribe((res) => {
+        if (!res.valid) {
+          this.postLogout();
+        }
+      });
   }
 
   getToken() {
