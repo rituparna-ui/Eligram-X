@@ -10,9 +10,21 @@ const userSchema = new mongoose.Schema(
   {
     firstName: { type: String, required: true },
     lastName: { type: String, required: true },
-    email: { type: String, required: true, unique: true, index: true },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+      lowercase: true,
+    },
     password: { type: String, required: true },
-    username: { type: String, required: true, unique: true, index: true },
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+      lowercase: true,
+    },
     // 0-Complete   1-Email Verified, data tbd   2-Verify Email
     state: { type: Number, default: 2, enum: [0, 1, 2] },
     role: { type: String, default: 'USER', enum: ['USER', 'ADMIN', 'OWNER'] },
