@@ -23,7 +23,6 @@ export class AnonymousGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('anonymous guard called');
     if (this.authService.getAuthStatus()) {
       this.router.navigate(['/']);
       return false;

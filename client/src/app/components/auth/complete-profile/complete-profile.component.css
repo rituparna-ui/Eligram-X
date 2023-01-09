@@ -1,0 +1,7 @@
+mat-label {
+  color: #000;
+}
+
+input[disabled] {
+  color: black !important;
+}

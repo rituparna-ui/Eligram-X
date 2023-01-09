@@ -9,17 +9,21 @@ import { MatCardModule } from '@angular/material/card';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 
 const material = [
   MatIconModule,
   MatListModule,
   MatCardModule,
   MatInputModule,
-  MatSnackBarModule,
   MatButtonModule,
+  MatSelectModule,
   MatToolbarModule,
   MatSidenavModule,
+  MatSnackBarModule,
   MatFormFieldModule,
+  MatDatepickerModule,
 ];
 
 @NgModule({

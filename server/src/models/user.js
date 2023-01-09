@@ -1,5 +1,11 @@
 const mongoose = require('mongoose');
 
+const dateOfBirthSchema = new mongoose.Schema({
+  date: { type: Number, required: true },
+  month: { type: Number, required: true },
+  year: { type: Number, required: true },
+});
+
 const userSchema = new mongoose.Schema(
   {
     firstName: { type: String, required: true },
@@ -11,6 +17,21 @@ const userSchema = new mongoose.Schema(
     state: { type: Number, default: 2, enum: [0, 1, 2] },
     role: { type: String, default: 'USER', enum: ['USER', 'ADMIN', 'OWNER'] },
     vcode: { type: Number, required: true },
+    gender: {
+      type: String,
+      required: true,
+      default: 'male',
+      enum: ['male', 'female'],
+    },
+    dateOfBirth: {
+      type: dateOfBirthSchema,
+      required: true,
+      default: {
+        date: 1,
+        month: 1,
+        year: 1970,
+      },
+    },
   },
   { timestamps: true }
 );

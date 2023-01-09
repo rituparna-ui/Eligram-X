@@ -142,7 +142,7 @@ exports.verifyEmail = async (req, res, next) => {
         })
       );
     }
-    const user = await User.updateOne(
+    const user = await User.findOneAndUpdate(
       { _id: req.user._id },
       { $set: { state: 1 } }
     );
@@ -156,6 +156,58 @@ exports.verifyEmail = async (req, res, next) => {
       token,
     });
   } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.completeProfile = async (req, res, next) => {
+  try {
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return next(
+        errorBuilder({
+          message: 'Validation Error',
+          status: 422,
+          errors: errors
+            .array()
+            .filter((x) => {
+              return x.msg != 'Invalid value';
+            })
+            .map((x) => {
+              return x.msg;
+            }),
+        })
+      );
+    }
+    const arr = req.body.dateOfBirth.split('/');
+    const month = +arr[0];
+    const date = +arr[1];
+    const year = +arr[2];
+
+    const user = await User.findOneAndUpdate(
+      { _id: req.user._id },
+      {
+        $set: {
+          gender: req.body.gender,
+          'dateOfBirth.year': year,
+          'dateOfBirth.month': month,
+          'dateOfBirth.date': date,
+          state: 0,
+        },
+      }
+    );
+
+    const token = jwt.sign(
+      { id: user._id, state: 0, role: user.role },
+      'secret'
+    );
+    return res.status(200).json({
+      message: 'Profile Completed !',
+      status: 200,
+      token,
+    });
+  } catch (error) {
+    console.log(error);
     return next(errorBuilder());
   }
 };

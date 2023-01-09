@@ -106,4 +106,16 @@ export class AuthService {
         this.router.navigate(['/auth', 'complete-profile']);
       });
   }
+
+  completeProfile(gender: string, dateOfBirth: string) {
+    this.http
+      .post<AuthResponse>(this.API + '/auth/complete-profile', {
+        gender,
+        dateOfBirth,
+      })
+      .subscribe((res) => {
+        this.postLogin(res.token);
+        this.router.navigate(['/']);
+      });
+  }
 }

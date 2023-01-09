@@ -16,6 +16,7 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { VerifyEmailComponent } from './components/auth/verify-email/verify-email.component';
 import { CompleteProfileComponent } from './components/auth/complete-profile/complete-profile.component';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { CompleteProfileComponent } from './components/auth/complete-profile/com
     MaterialModule,
     ReactiveFormsModule,
     HttpClientModule,
+    MatNativeDateModule,
   ],
   providers: [
     {

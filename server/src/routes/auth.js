@@ -6,6 +6,7 @@ const {
   login,
   verifyToken,
   verifyEmail,
+  completeProfile,
 } = require('../controllers/auth');
 const auth = require('../middlewares/auth');
 const User = require('./../models/user');
@@ -55,4 +56,36 @@ router.post('/verify-token', body('token').isJWT(), verifyToken);
 
 router.post('/verify-email', body('vcode'), auth(), verifyEmail);
 
+router.post(
+  '/complete-profile',
+  auth(),
+  [
+    body('gender').custom((val) => {
+      if (val != 'male' && val != 'female') {
+        throw new Error('Please provide a valid gender, male or female');
+      }
+      return true;
+    }),
+    body('dateOfBirth').custom((val) => {
+      const arr = val.split('/');
+      const month = +arr[0];
+      const date = +arr[1];
+      const year = arr[2];
+      if (
+        (date <= 0 && date > 31) ||
+        (month <= 0 && month > 12) ||
+        year.length != 4
+      ) {
+        throw new Error('Please enter a valid date');
+      }
+      return true;
+    }),
+  ],
+  completeProfile
+);
+
 module.exports = router;
+/*
+
+,
+*/
