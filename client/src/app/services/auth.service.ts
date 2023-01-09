@@ -97,4 +97,13 @@ export class AuthService {
         this.router.navigate(['/']);
       });
   }
+
+  verifyEmail(vcode: number) {
+    this.http
+      .post<AuthResponse>(this.API + '/auth/verify-email', { vcode })
+      .subscribe((res) => {
+        this.postLogin(res.token);
+        this.router.navigate(['/auth', 'complete-profile']);
+      });
+  }
 }

@@ -23,7 +23,6 @@ export class VerifyEmailGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('verify email guard');
     if (this.authService.getUser().state == 2) {
       return true;
     }

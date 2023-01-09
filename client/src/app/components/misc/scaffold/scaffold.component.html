@@ -8,11 +8,16 @@
     <div><a routerLink="/" class="brand">Eligram-X</a></div>
   </div>
   <div class="toHideOnMedia">
-    <ul class="ul">
-      <li class="li" *ngFor="let route of routes">
+    <ul class="ul" *ngIf="!isAuth">
+      <li class="li" *ngFor="let route of anonymous">
         <a class="a" [routerLink]="route.route" routerLinkActive="active">{{
           route.name
         }}</a>
+      </li>
+    </ul>
+    <ul class="ul" *ngIf="isAuth">
+      <li class="li">
+        <a class="a logout" (click)="logout()">Logout</a>
       </li>
     </ul>
   </div>
@@ -23,11 +28,16 @@
     <div class="navout">
       <h1 class="text-center">Menu</h1>
       <mat-divider></mat-divider>
-      <ul class="side-ul">
-        <li class="side-li" *ngFor="let route of routes">
+      <ul class="side-ul" *ngIf="!isAuth">
+        <li class="side-li" *ngFor="let route of anonymous">
           <a class="side-li-a" mat-flat-button [routerLink]="route.route">{{
             route.name
           }}</a>
+        </li>
+      </ul>
+      <ul class="side-ul" *ngIf="isAuth">
+        <li class="side-li" *ngIf="isAuth">
+          <a class="side-li-a" mat-flat-button (click)="logout()">Logout</a>
         </li>
       </ul>
     </div>

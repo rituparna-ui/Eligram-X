@@ -22,7 +22,6 @@ export class CompleteProfileGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    console.log('complete profile called');
     if (this.authService.getUser().state == 1) {
       return true;
     }

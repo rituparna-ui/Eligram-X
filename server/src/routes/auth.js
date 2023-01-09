@@ -1,7 +1,13 @@
 const express = require('express');
 const { body } = require('express-validator');
 
-const { signup, login, verifyToken } = require('../controllers/auth');
+const {
+  signup,
+  login,
+  verifyToken,
+  verifyEmail,
+} = require('../controllers/auth');
+const auth = require('../middlewares/auth');
 const User = require('./../models/user');
 
 const router = express.Router();
@@ -46,5 +52,7 @@ router.post(
 router.post('/login', login);
 
 router.post('/verify-token', body('token').isJWT(), verifyToken);
+
+router.post('/verify-email', body('vcode'), auth(), verifyEmail);
 
 module.exports = router;

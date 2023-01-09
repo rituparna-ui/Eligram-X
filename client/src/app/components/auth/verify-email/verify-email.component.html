@@ -1,1 +1,45 @@
-<p>verify-email works!</p>
+<div class="container">
+  <mat-card>
+    <mat-card-header>
+      <h1>Email Verification</h1>
+    </mat-card-header>
+    <mat-card-content>
+      <form [formGroup]="verifyEmailForm" (ngSubmit)="onSubmit()">
+        <div>
+          <mat-form-field appearance="outline" class="w-100">
+            <mat-label>Verification Code</mat-label>
+            <input
+              matInput
+              placeholder="6 Digit Verification Code"
+              formControlName="vcode"
+              type="number"
+            />
+            <mat-error
+              *ngIf="verifyEmailForm.get('vcode')?.errors?.['required']"
+              >Please enter the verification code</mat-error
+            >
+            <mat-error
+              *ngIf="verifyEmailForm.get('vcode')?.errors?.['min'] || verifyEmailForm.get('vcode')?.errors?.['max']"
+              >Please enter a valid 6 digit verification code</mat-error
+            >
+          </mat-form-field>
+        </div>
+        <div>
+          <button type="submit" mat-raised-button color="primary" class="w-100">
+            Verify Email
+          </button>
+          <br />
+          <br />
+          <button
+            mat-raised-button
+            style="background-color: teal; color: white"
+            class="w-100"
+            (click)="resendVcode()"
+          >
+            Resend Verification Code
+          </button>
+        </div>
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>
