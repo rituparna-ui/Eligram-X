@@ -118,4 +118,14 @@ export class AuthService {
         this.router.navigate(['/']);
       });
   }
+
+  signInWithGoogle(idToken: string) {
+    this.http
+      .post<AuthResponse>(this.API + '/auth/google', { idToken })
+      .subscribe((res) => {
+        this.snackBar.open(res.message, '', { duration: 2000 });
+        this.postLogin(res.token);
+        this.router.navigate(['/']);
+      });
+  }
 }

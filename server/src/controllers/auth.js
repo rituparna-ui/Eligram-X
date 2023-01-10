@@ -3,8 +3,14 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const vcode = require('./../utls/vcode');
+const { OAuth2Client } = require('google-auth-library');
 
 const errorBuilder = require('./../utls/error');
+
+const CLIENT_ID =
+  '72244162417-815i1q0n7nh3i50n0c1c2tfv4taimvl9.apps.googleusercontent.com';
+
+const client = new OAuth2Client(CLIENT_ID);
 
 exports.signup = async (req, res, next) => {
   const errors = validationResult(req);
@@ -209,5 +215,78 @@ exports.completeProfile = async (req, res, next) => {
   } catch (error) {
     console.log(error);
     return next(errorBuilder());
+  }
+};
+
+exports.googleLogin = async (req, res, next) => {
+  try {
+    const { idToken } = req.body;
+    const ticket = await client.verifyIdToken({
+      idToken: idToken,
+    });
+    const payload = ticket.getPayload();
+
+    const user = await User.findOne({ email: payload.email });
+    if (user) {
+      const token = jwt.sign(
+        { id: user._id, state: user.state, role: user.role },
+        'secret'
+      );
+      if (user.state == 2) {
+        return res.status(200).json({
+          message: 'Please verify your email',
+          status: 200,
+          token,
+        });
+      }
+      if (user.state == 1) {
+        return res.status(200).json({
+          message: 'Please complete your profile',
+          status: 200,
+          token,
+        });
+      }
+      return res.status(200).json({
+        message: 'Logged in successfully',
+        status: 200,
+        token,
+      });
+    } else {
+      const email = payload.email;
+      const password = 'qwer1234';
+      const hash = await bcrypt.hash(password, 12);
+      let username = email.split('@')[0];
+      while (!!(await User.findOne({ username }))) {
+        username += parseInt(Math.random() * 10);
+      }
+
+      const user = await User.create({
+        firstName: payload.given_name,
+        lastName: payload.family_name,
+        email,
+        password: hash,
+        username,
+        state: 1,
+        vcode: vcode(),
+      });
+
+      const token = jwt.sign(
+        { id: user._id, state: user.state, role: user.role },
+        'secret'
+      );
+      return res.status(200).json({
+        message: 'Logged in successfully',
+        status: 200,
+        token,
+      });
+    }
+  } catch (error) {
+    return next(
+      errorBuilder({
+        message: 'Invalid OAuth Token',
+        status: 401,
+        errors: ['Invalid OAuth Token'],
+      })
+    );
   }
 };

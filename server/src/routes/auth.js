@@ -7,6 +7,7 @@ const {
   verifyToken,
   verifyEmail,
   completeProfile,
+  googleLogin,
 } = require('../controllers/auth');
 const auth = require('../middlewares/auth');
 const User = require('./../models/user');
@@ -83,6 +84,8 @@ router.post(
   ],
   completeProfile
 );
+
+router.post('/google', googleLogin);
 
 module.exports = router;
 /*

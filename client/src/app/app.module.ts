@@ -17,6 +17,12 @@ import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { VerifyEmailComponent } from './components/auth/verify-email/verify-email.component';
 import { CompleteProfileComponent } from './components/auth/complete-profile/complete-profile.component';
 import { MatNativeDateModule } from '@angular/material/core';
+import {
+  SocialLoginModule,
+  SocialAuthServiceConfig,
+} from '@abacritt/angularx-social-login';
+import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
+import { GoogleComponent } from './components/auth/google/google.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +33,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     FeedComponent,
     VerifyEmailComponent,
     CompleteProfileComponent,
+    GoogleComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,8 +44,27 @@ import { MatNativeDateModule } from '@angular/material/core';
     ReactiveFormsModule,
     HttpClientModule,
     MatNativeDateModule,
+    SocialLoginModule,
   ],
   providers: [
+    {
+      provide: 'SocialAuthServiceConfig',
+      useValue: {
+        autoLogin: false,
+        providers: [
+          {
+            id: GoogleLoginProvider.PROVIDER_ID,
+            provider: new GoogleLoginProvider(
+              '72244162417-815i1q0n7nh3i50n0c1c2tfv4taimvl9.apps.googleusercontent.com',
+              { oneTapEnabled: false }
+            ),
+          },
+        ],
+        onError: (err) => {
+          console.error(err);
+        },
+      } as SocialAuthServiceConfig,
+    },
     {
       provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptor,
