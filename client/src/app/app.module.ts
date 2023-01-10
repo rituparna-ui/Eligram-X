@@ -23,6 +23,7 @@ import {
 } from '@abacritt/angularx-social-login';
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { GoogleComponent } from './components/auth/google/google.component';
+import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { GoogleComponent } from './components/auth/google/google.component';
     VerifyEmailComponent,
     CompleteProfileComponent,
     GoogleComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     BrowserModule,

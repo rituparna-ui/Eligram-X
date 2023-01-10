@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CompleteProfileComponent } from './components/auth/complete-profile/complete-profile.component';
+import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { VerifyEmailComponent } from './components/auth/verify-email/verify-email.component';
@@ -23,6 +24,11 @@ const routes: Routes = [
       {
         path: 'signup',
         component: SignupComponent,
+        canActivate: [AnonymousGuard],
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotPasswordComponent,
         canActivate: [AnonymousGuard],
       },
       {

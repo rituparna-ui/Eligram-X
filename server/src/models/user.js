@@ -44,6 +44,8 @@ const userSchema = new mongoose.Schema(
         year: 1970,
       },
     },
+    passwordResetRequest: { type: Boolean, default: false },
+    passwordResetCode: { type: Number },
   },
   { timestamps: true }
 );

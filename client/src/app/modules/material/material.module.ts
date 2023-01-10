@@ -11,12 +11,14 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatRippleModule } from '@angular/material/core';
 
 const material = [
   MatIconModule,
   MatListModule,
   MatCardModule,
   MatInputModule,
+  MatRippleModule,
   MatButtonModule,
   MatSelectModule,
   MatToolbarModule,

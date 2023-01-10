@@ -8,6 +8,8 @@ const {
   verifyEmail,
   completeProfile,
   googleLogin,
+  forgotPassword,
+  resetPassword,
 } = require('../controllers/auth');
 const auth = require('../middlewares/auth');
 const User = require('./../models/user');
@@ -87,8 +89,26 @@ router.post(
 
 router.post('/google', googleLogin);
 
-module.exports = router;
-/*
+router.post(
+  '/forgot-password',
+  body('email')
+    .isEmail()
+    .withMessage('Please provide a valid email')
+    .normalizeEmail(),
+  forgotPassword
+);
 
-,
-*/
+router.post(
+  '/reset-password',
+  [
+    body('resetCode'),
+    body('password')
+      .isString()
+      .withMessage('Please enter a valid password')
+      .isLength({ min: 8 })
+      .withMessage('Password must be at least 8 characters long'),
+  ],
+  resetPassword
+);
+
+module.exports = router;

@@ -290,3 +290,106 @@ exports.googleLogin = async (req, res, next) => {
     );
   }
 };
+
+exports.forgotPassword = async (req, res, next) => {
+  const errors = validationResult(req);
+  try {
+    if (!errors.isEmpty()) {
+      return next(
+        errorBuilder({
+          message: 'Validation Error',
+          status: 422,
+          errors: errors
+            .array()
+            .filter((x) => {
+              return x.msg != 'Invalid value';
+            })
+            .map((x) => {
+              return x.msg;
+            }),
+        })
+      );
+    }
+    const { email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(
+        errorBuilder({
+          message: 'User not found',
+          status: 404,
+          errors: ['User not found'],
+        })
+      );
+    }
+    await User.updateOne(
+      { _id: user.id },
+      {
+        $set: {
+          passwordResetRequest: true,
+          passwordResetCode: vcode(),
+        },
+      }
+    );
+    return res.status(200).json({
+      message: 'Password reset code has been emailed',
+      status: 200,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.resetPassword = async (req, res, next) => {
+  try {
+    const { resetCode, password, email } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) {
+      return next(
+        errorBuilder({
+          message: 'User not found',
+          status: 404,
+          errors: ['User not found'],
+        })
+      );
+    }
+    if (!user.passwordResetRequest) {
+      return next(
+        errorBuilder({
+          message: 'Invalid Request',
+          status: 401,
+          errors: ['Invalid Request'],
+        })
+      );
+    }
+    if (user.passwordResetCode != resetCode) {
+      return next(
+        errorBuilder({
+          message: 'Incorrect password reset code',
+          status: 401,
+          errors: ['Incorrect password reset code'],
+        })
+      );
+    }
+    const hash = await bcrypt.hash(password, 12);
+    await User.findOneAndUpdate(
+      { email },
+      {
+        $set: {
+          passwordResetRequest: false,
+          password: hash,
+        },
+      }
+    );
+    const token = jwt.sign(
+      { id: user._id, state: user.state, role: user.role },
+      'secret'
+    );
+    return res.status(201).json({
+      message: 'Password reset successful',
+      status: 200,
+      token,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};

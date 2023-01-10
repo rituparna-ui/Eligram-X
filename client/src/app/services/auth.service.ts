@@ -128,4 +128,25 @@ export class AuthService {
         this.router.navigate(['/']);
       });
   }
+
+  sendPasswordResetCode(email: string) {
+    return this.http.post<{ message: string; status: number }>(
+      this.API + '/auth/forgot-password',
+      { email }
+    );
+  }
+
+  resetPassword(resetCode: number, password: string, email: string) {
+    this.http
+      .post<AuthResponse>(this.API + '/auth/reset-password', {
+        resetCode,
+        password,
+        email,
+      })
+      .subscribe((res) => {
+        this.snackBar.open(res.message, '', { duration: 2000 });
+        this.postLogin(res.token);
+        this.router.navigate(['/']);
+      });
+  }
 }
