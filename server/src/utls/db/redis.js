@@ -1,20 +1,16 @@
 const redis = require('redis');
 
-const redisObject = {
-  instance: null,
-  connect() {
-    this.instance = redis.createClient();
-    return this.instance.connect();
-  },
-  getRedis() {
-    if (!this.instance) {
-      throw new Error('REDIS Not Connected');
-    }
-    return this.instance;
-  },
+const redisClient = redis.createClient();
+
+const connect = () => {
+  return redisClient.connect();
+};
+
+const getRedis = () => {
+  return redisClient;
 };
 
 module.exports = {
-  redisInit: redisObject.connect,
-  getRedis: redisObject.getRedis,
+  redisInit: connect,
+  getRedis: getRedis,
 };

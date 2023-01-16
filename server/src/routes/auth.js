@@ -10,6 +10,7 @@ const {
   googleLogin,
   forgotPassword,
   resetPassword,
+  logout,
 } = require('../controllers/auth');
 const auth = require('../middlewares/auth');
 const User = require('./../models/user');
@@ -55,6 +56,8 @@ router.post(
 
 router.post('/login', login);
 
+router.post('/logout', logout);
+
 router.post('/verify-token', body('token').isJWT(), verifyToken);
 
 router.post('/verify-email', body('vcode'), auth(), verifyEmail);
@@ -91,10 +94,12 @@ router.post('/google', googleLogin);
 
 router.post(
   '/forgot-password',
-  body('email')
-    .isEmail()
-    .withMessage('Please provide a valid email')
-    .normalizeEmail(),
+  [
+    body('email')
+      .isEmail()
+      .withMessage('Please provide a valid email')
+      .normalizeEmail(),
+  ],
   forgotPassword
 );
 

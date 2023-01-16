@@ -1,5 +1,6 @@
 const express = require('express');
 const cors = require('cors');
+const useragentParser = require('express-useragent');
 
 const MONGO = require('./src/utls/db/mongo');
 const REDIS = require('./src/utls/db/redis');
@@ -9,6 +10,7 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
+app.use(useragentParser.express());
 
 app.use('/api', API_ROUTES);
 

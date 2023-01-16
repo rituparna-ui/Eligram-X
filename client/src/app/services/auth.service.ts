@@ -10,7 +10,7 @@ import { AuthServiceUser } from '../models/authUser.model';
   providedIn: 'root',
 })
 export class AuthService {
-  readonly API = 'http://localhost:3000/api';
+  readonly API = 'http://10.1.5.55:3000/api';
   private token: string = '';
   private isAuth: boolean = false;
   private authNotifier: Subject<boolean> = new Subject<boolean>();
@@ -35,6 +35,7 @@ export class AuthService {
   }
 
   postLogout() {
+    this.http.post(this.API + '/auth/logout', {}).subscribe();
     localStorage.removeItem('token');
     this.token = '';
     this.isAuth = false;

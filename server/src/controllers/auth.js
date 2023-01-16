@@ -6,6 +6,7 @@ const vcode = require('./../utls/vcode');
 const { OAuth2Client } = require('google-auth-library');
 
 const errorBuilder = require('./../utls/error');
+const { getRedis } = require('../utls/db/redis');
 
 const CLIENT_ID =
   '72244162417-815i1q0n7nh3i50n0c1c2tfv4taimvl9.apps.googleusercontent.com';
@@ -58,7 +59,6 @@ exports.signup = async (req, res, next) => {
       token,
     });
   } catch (error) {
-    console.log(error);
     return next(errorBuilder());
   }
 };
@@ -67,6 +67,10 @@ exports.verifyToken = async (req, res, next) => {
   const errors = validationResult(req);
   try {
     if (!errors.isEmpty()) {
+      throw new Error();
+    }
+    const rToken = await getRedis().GET(req.body.token);
+    if (!rToken) {
       throw new Error();
     }
     jwt.verify(req.body.token, 'secret');
@@ -125,6 +129,30 @@ exports.login = async (req, res, next) => {
         token,
       });
     }
+    const newSession = {
+      ip: req.ip,
+      browser: req.useragent.browser,
+      version: req.useragent.version,
+      os: req.useragent.os,
+      platform: req.useragent.platform,
+    };
+
+    await getRedis().set(token, user._id.toString());
+
+    const existingSessions = await getRedis().json.get(
+      'user:sessions:' + user._id
+    );
+
+    if (!existingSessions) {
+      await getRedis().json.SET('user:sessions:' + user._id, '.', {
+        sessions: [{ [token]: newSession }],
+      });
+    } else {
+      await getRedis().json.ARRAPPEND('user:sessions:' + user._id, 'sessions', {
+        [token]: newSession,
+      });
+    }
+
     return res.status(200).json({
       message: 'Logged in successfully',
       status: 200,
@@ -207,13 +235,35 @@ exports.completeProfile = async (req, res, next) => {
       { id: user._id, state: 0, role: user.role },
       'secret'
     );
+    const newSession = {
+      ip: req.ip,
+      browser: req.useragent.browser,
+      version: req.useragent.version,
+      os: req.useragent.os,
+      platform: req.useragent.platform,
+    };
+
+    await getRedis().set(token, user._id.toString());
+
+    const existingSessions = await getRedis().json.get(
+      'user:sessions:' + user._id
+    );
+
+    if (!existingSessions) {
+      await getRedis().json.SET('user:sessions:' + user._id, '.', {
+        sessions: [{ [token]: newSession }],
+      });
+    } else {
+      await getRedis().json.ARRAPPEND('user:sessions:' + user._id, 'sessions', {
+        [token]: newSession,
+      });
+    }
     return res.status(200).json({
       message: 'Profile Completed !',
       status: 200,
       token,
     });
   } catch (error) {
-    console.log(error);
     return next(errorBuilder());
   }
 };
@@ -245,6 +295,33 @@ exports.googleLogin = async (req, res, next) => {
           status: 200,
           token,
         });
+      }
+      const newSession = {
+        ip: req.ip,
+        browser: req.useragent.browser,
+        version: req.useragent.version,
+        os: req.useragent.os,
+        platform: req.useragent.platform,
+      };
+
+      await getRedis().set(token, user._id.toString());
+
+      const existingSessions = await getRedis().json.get(
+        'user:sessions:' + user._id
+      );
+
+      if (!existingSessions) {
+        await getRedis().json.SET('user:sessions:' + user._id, '.', {
+          sessions: [{ [token]: newSession }],
+        });
+      } else {
+        await getRedis().json.ARRAPPEND(
+          'user:sessions:' + user._id,
+          'sessions',
+          {
+            [token]: newSession,
+          }
+        );
       }
       return res.status(200).json({
         message: 'Logged in successfully',
@@ -392,4 +469,28 @@ exports.resetPassword = async (req, res, next) => {
   } catch (error) {
     return next(errorBuilder());
   }
+};
+
+exports.logout = async (req, res, next) => {
+  const token = req.headers?.authorization;
+  const rToken = await getRedis().GET(token);
+  if (!rToken) {
+    return res.status(200).json({
+      message: 'Logged Out',
+    });
+  }
+  const payload = jwt.decode(token);
+  const userSessions = await getRedis().json.GET('user:sessions:' + payload.id);
+  newSessions = userSessions.sessions.filter((sessionToken) => {
+    return Object.keys(sessionToken)[0] != token;
+  });
+  await getRedis().json.SET(
+    'user:sessions:' + payload.id,
+    'sessions',
+    newSessions
+  );
+  await getRedis().DEL(token);
+  return res.status(200).json({
+    message: 'Logged Out',
+  });
 };
