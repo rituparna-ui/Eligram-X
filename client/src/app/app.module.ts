@@ -24,6 +24,8 @@ import {
 import { GoogleLoginProvider } from '@abacritt/angularx-social-login';
 import { GoogleComponent } from './components/auth/google/google.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
+import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
+import { NotFoundComponent } from './components/misc/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -36,6 +38,8 @@ import { ForgotPasswordComponent } from './components/auth/forgot-password/forgo
     CompleteProfileComponent,
     GoogleComponent,
     ForgotPasswordComponent,
+    DashboardComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,

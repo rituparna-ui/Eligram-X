@@ -16,6 +16,9 @@
       </li>
     </ul>
     <ul class="ul" *ngIf="isAuth">
+      <li class="li" *ngIf="user.role === 'ADMIN'">
+        <a class="a logout" routerLink="/admin/dashboard">ADMIN</a>
+      </li>
       <li class="li">
         <a class="a logout" (click)="logout()">Logout</a>
       </li>

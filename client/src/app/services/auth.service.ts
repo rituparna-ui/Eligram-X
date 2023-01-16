@@ -15,6 +15,8 @@ export class AuthService {
   private isAuth: boolean = false;
   private authNotifier: Subject<boolean> = new Subject<boolean>();
   private user: AuthServiceUser = { id: '', role: '', state: -1 };
+  private userNotifier: Subject<AuthServiceUser> =
+    new Subject<AuthServiceUser>();
 
   constructor(
     private http: HttpClient,
@@ -29,6 +31,7 @@ export class AuthService {
     this.authNotifier.next(true);
     try {
       this.user = JSON.parse(window.atob(token.split('.')[1]));
+      this.userNotifier.next(this.user);
     } catch (error) {
       this.postLogout();
     }
@@ -77,6 +80,10 @@ export class AuthService {
 
   getUser() {
     return this.user;
+  }
+
+  getUserNotifier() {
+    return this.userNotifier.asObservable();
   }
 
   signUp(user: SignUpForm) {

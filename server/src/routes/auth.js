@@ -13,6 +13,7 @@ const {
   logout,
 } = require('../controllers/auth');
 const auth = require('../middlewares/auth');
+const jwtAuth = require('../middlewares/verify-jwt');
 const User = require('./../models/user');
 
 const router = express.Router();
@@ -60,11 +61,11 @@ router.post('/logout', logout);
 
 router.post('/verify-token', body('token').isJWT(), verifyToken);
 
-router.post('/verify-email', body('vcode'), auth(), verifyEmail);
+router.post('/verify-email', body('vcode'), jwtAuth(), verifyEmail);
 
 router.post(
   '/complete-profile',
-  auth(),
+  jwtAuth(),
   [
     body('gender').custom((val) => {
       if (val != 'male' && val != 'female') {
