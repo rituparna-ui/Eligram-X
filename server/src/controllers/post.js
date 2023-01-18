@@ -6,7 +6,6 @@ const User = require('./../models/user');
 const Image = require('./../models/image');
 const errorBuilder = require('./../utls/error');
 
-
 exports.createPost = async (req, res, next) => {
   const session = await mongoose.startSession();
   try {
