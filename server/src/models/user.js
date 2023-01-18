@@ -46,6 +46,12 @@ const userSchema = new mongoose.Schema(
     },
     passwordResetRequest: { type: Boolean, default: false },
     passwordResetCode: { type: Number },
+    profilePicture: {
+      type: String,
+      required: true,
+      default:
+        'https://storage.googleapis.com/rituparna-a.appspot.com/eligram%2Fassets%2Fphotos%2F1674025800920_user-default185c3b694d8.png',
+    },
   },
   { timestamps: true }
 );

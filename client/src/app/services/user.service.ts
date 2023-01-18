@@ -17,6 +17,8 @@ export class UserService implements OnInit {
     role: '',
     state: 0,
     username: '',
+    profilePicture: '',
+    dateOfBirth: { date: 0, month: 0, year: 0 },
   };
   private userNotifier: Subject<UserServiceUser> =
     new Subject<UserServiceUser>();

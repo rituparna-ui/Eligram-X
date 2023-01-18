@@ -11,4 +11,6 @@ export class PostService {
   createPost(formData: FormData) {
     return this.http.post(this.API + '/posts', formData);
   }
+
+  fetchAllUserPosts(username: string) {}
 }

@@ -1,6 +1,43 @@
 <div class="container">
   <mat-card>
     <br />
-    <h1 class="text-center">Profile Page</h1>
+    <h1 class="text-center">Profile</h1>
+    <div class="text-center">
+      <img
+        [src]="user?.profilePicture"
+        [alt]="user?.username"
+        class="profile-image"
+      />
+      <br />
+      <br />
+      <div class="d-flex align-items-center justify-content-center">
+        <mat-icon color="primary" *ngIf="user?.gender === 'male'">
+          male
+        </mat-icon>
+        <mat-icon color="accent" *ngIf="user?.gender === 'female'">
+          female
+        </mat-icon>
+        <mat-icon>more_vert</mat-icon>
+        {{ user?.dateOfBirth?.date }}/{{ user?.dateOfBirth?.month }}/{{
+          user?.dateOfBirth?.year
+        }}
+      </div>
+    </div>
+    <div class="text-center">
+      <div>
+        <h2>{{ user?.firstName }} {{ user?.lastName }}</h2>
+      </div>
+      <div>
+        <h2 class="d-flex align-items-center justify-content-center">
+          {{ user?.email }}
+          &nbsp;|&nbsp;
+          <mat-icon *ngIf="user?.role === 'USER'">person</mat-icon>
+          <mat-icon *ngIf="user?.role === 'ADMIN'">security</mat-icon>
+        </h2>
+      </div>
+      <div>
+        <h2>{{ user?.username }}</h2>
+      </div>
+    </div>
   </mat-card>
 </div>

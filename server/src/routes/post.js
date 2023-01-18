@@ -2,7 +2,7 @@ const express = require('express');
 const Multer = require('multer');
 const FirebaseStorage = require('multer-firebase-storage');
 
-const { createPost } = require('../controllers/post');
+const { createPost, getAllPostsByUsername, getImageById } = require('../controllers/post');
 const auth = require('./../middlewares/auth');
 const serviceAccount = require('./../rituparna-a-firebase');
 
@@ -31,5 +31,9 @@ const multer = Multer({
 });
 
 router.post('/', auth(), multer.array('photos', 5), createPost);
+
+router.get('/u/:username', getAllPostsByUsername);
+
+router.get('/images/:id', getImageById);
 
 module.exports = router;

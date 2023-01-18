@@ -7,4 +7,6 @@ export interface UserServiceUser {
   role: string;
   gender: string;
   _id: string;
+  profilePicture: string;
+  dateOfBirth: { date: number; month: number; year: number };
 }

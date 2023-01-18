@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { UserServiceUser } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 
 @Component({
@@ -8,16 +9,23 @@ import { UserService } from 'src/app/services/user.service';
   styleUrls: ['./profile-home.component.css'],
 })
 export class ProfileHomeComponent implements OnInit {
+  user?: UserServiceUser;
   constructor(
     private route: ActivatedRoute,
-    private userService: UserService
+    private userService: UserService,
+    private router: Router
   ) {}
 
   ngOnInit(): void {
     this.userService
       .fetchUserByUsername(this.route.snapshot.params['username'])
-      .subscribe((user) => {
-        console.log(user)
+      .subscribe({
+        next: (user) => {
+          this.user = user;
+        },
+        error: () => {
+          this.router.navigate(['/not-found']);
+        },
       });
   }
 }

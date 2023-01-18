@@ -13,6 +13,8 @@ exports.getCurrentUser = async (req, res, next) => {
       'role',
       'gender',
       '_id',
+      'profilePicture',
+      'dateOfBirth',
     ];
     const user = await User.findOne({ _id: id }).select(fetchDetails.join(' '));
     if (!user) {
@@ -43,8 +45,12 @@ exports.getUserByUsername = async (req, res, next) => {
       'role',
       'gender',
       '_id',
+      'profilePicture',
+      'dateOfBirth',
     ];
-    const user = await User.findOne({ username }).select(fetchDetails.join(' '));
+    const user = await User.findOne({ username }).select(
+      fetchDetails.join(' ')
+    );
     if (!user) {
       return next(
         errorBuilder({

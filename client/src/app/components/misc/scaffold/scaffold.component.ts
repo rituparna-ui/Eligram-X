@@ -27,6 +27,8 @@ export class ScaffoldComponent implements OnInit, OnDestroy {
     role: '',
     state: 0,
     username: '',
+    profilePicture: '',
+    dateOfBirth: { date: 0, month: 0, year: 0 },
   };
   private userSubscription: Subscription = new Subscription();
   private isAuthSubscription: Subscription = new Subscription();

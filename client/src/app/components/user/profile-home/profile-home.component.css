@@ -1,0 +1,6 @@
+.profile-image {
+  min-width: 100px;
+  border: 2px solid rgb(128, 128, 128);
+  border-radius: 100%;
+  padding: 1px;
+}
