@@ -1,7 +1,9 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import axios from 'axios';
+import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialogRef } from '@angular/material/dialog';
-import { PostService } from 'src/app/services/post.service';
+import { AuthService } from 'src/app/services/auth.service';
+import { ProgressBarMode } from '@angular/material/progress-bar';
 
 @Component({
   selector: 'app-post-modal',
@@ -12,9 +14,11 @@ export class PostModalComponent implements OnInit {
   createPostForm: FormGroup = new FormGroup({});
   photos: any = [];
   isLoading = false;
+  progress = 0;
+  mode: ProgressBarMode = 'determinate';
 
   constructor(
-    private postService: PostService,
+    private authService: AuthService,
     private dialogRef: MatDialogRef<PostModalComponent>
   ) {}
 
@@ -40,9 +44,24 @@ export class PostModalComponent implements OnInit {
     for (var i = 0; i < this.photos.length; i++) {
       formData.append('photos', this.photos[i]);
     }
-    this.postService.createPost(formData).subscribe((data) => {
-      this.isLoading = false;
-      this.dialogRef.close(data);
-    });
+    axios
+      .post('http://localhost:3000/api/posts', formData, {
+        onUploadProgress: (progress) => {
+          if (progress.progress) {
+            this.progress = progress.progress * 100;
+          }
+          if (progress.progress == 1) {
+            this.mode = 'indeterminate';
+          }
+        },
+        headers: {
+          Authorization: this.authService.getToken(),
+        },
+      })
+      .then((result) => {
+        this.isLoading = false;
+        this.dialogRef.close(result.data);
+      })
+      .catch((err) => {});
   }
 }

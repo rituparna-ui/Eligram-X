@@ -1,5 +1,10 @@
 <div class="w-100" style="height: 100%">
-  <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+  <mat-progress-bar
+    [mode]="mode"
+    *ngIf="isLoading"
+    [value]="progress"
+    style="position: absolute; z-index: 99"
+  ></mat-progress-bar>
   <mat-card class="p-4" style="height: 100%; display: block">
     <form [formGroup]="createPostForm" (ngSubmit)="onSubmit()">
       <div>
