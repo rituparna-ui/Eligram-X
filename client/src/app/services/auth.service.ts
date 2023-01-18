@@ -4,24 +4,22 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
 import { SignUpForm, AuthResponse, LoginForm } from '../models/auth.model';
-import { AuthServiceUser } from '../models/authUser.model';
+import { UserService } from './user.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
-  readonly API = 'http://10.1.5.55:3000/api';
+  readonly API = 'http://localhost:3000/api';
   private token: string = '';
   private isAuth: boolean = false;
   private authNotifier: Subject<boolean> = new Subject<boolean>();
-  private user: AuthServiceUser = { id: '', role: '', state: -1 };
-  private userNotifier: Subject<AuthServiceUser> =
-    new Subject<AuthServiceUser>();
 
   constructor(
     private http: HttpClient,
     private snackBar: MatSnackBar,
-    private router: Router
+    private router: Router,
+    private userService: UserService
   ) {}
 
   postLogin(token: string) {
@@ -30,8 +28,8 @@ export class AuthService {
     this.isAuth = true;
     this.authNotifier.next(true);
     try {
-      this.user = JSON.parse(window.atob(token.split('.')[1]));
-      this.userNotifier.next(this.user);
+      const user = JSON.parse(window.atob(token.split('.')[1]));
+      this.userService.fetchCurrentUser(user.id);
     } catch (error) {
       this.postLogout();
     }
@@ -76,14 +74,6 @@ export class AuthService {
 
   getAuthStatus() {
     return this.isAuth;
-  }
-
-  getUser() {
-    return this.user;
-  }
-
-  getUserNotifier() {
-    return this.userNotifier.asObservable();
   }
 
   signUp(user: SignUpForm) {

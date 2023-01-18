@@ -22,7 +22,9 @@ export class CompleteProfileGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.authService.getUser().state == 1) {
+    const token = this.authService.getToken();
+    const user = JSON.parse(window.atob(token.split('.')[1]));
+    if (user.state == 1) {
       return true;
     }
     this.router.navigate(['/']);

@@ -1,7 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Subscription } from 'rxjs';
-import { AuthServiceUser } from 'src/app/models/authUser.model';
+import { UserServiceUser } from 'src/app/models/user.model';
 import { AuthService } from 'src/app/services/auth.service';
+import { UserService } from 'src/app/services/user.service';
+import { PostModalComponent } from '../../post/post-modal/post-modal.component';
 
 @Component({
   selector: 'app-scaffold',
@@ -14,11 +18,25 @@ export class ScaffoldComponent implements OnInit, OnDestroy {
     { name: 'Sign Up', route: '/auth/signup' },
   ];
   isAuth: boolean = false;
-  user: AuthServiceUser = { id: '', role: '', state: 0 };
-  userSubscription: Subscription = new Subscription();
+  user: UserServiceUser = {
+    _id: '',
+    email: '',
+    firstName: '',
+    gender: '',
+    lastName: '',
+    role: '',
+    state: 0,
+    username: '',
+  };
+  private userSubscription: Subscription = new Subscription();
   private isAuthSubscription: Subscription = new Subscription();
 
-  constructor(private authService: AuthService) {}
+  constructor(
+    private authService: AuthService,
+    private userService: UserService,
+    private dialog: MatDialog,
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnDestroy(): void {
     this.isAuthSubscription.unsubscribe();
@@ -26,9 +44,9 @@ export class ScaffoldComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.user = this.authService.getUser();
+    this.user = this.userService.getUser();
     this.isAuth = this.authService.getAuthStatus();
-    this.userSubscription = this.authService
+    this.userSubscription = this.userService
       .getUserNotifier()
       .subscribe((user) => {
         this.user = user;
@@ -42,5 +60,16 @@ export class ScaffoldComponent implements OnInit, OnDestroy {
 
   logout() {
     this.authService.postLogout();
+  }
+  openCreatePostModal() {
+    const dialogRef = this.dialog.open(PostModalComponent, {
+      width: '100%',
+      height: '70%',
+    });
+    dialogRef.afterClosed().subscribe((data) => {
+      if (data) {
+        this.snackBar.open(data.message, '', { duration: 2500 });
+      }
+    });
   }
 }

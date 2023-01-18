@@ -12,20 +12,26 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatRippleModule } from '@angular/material/core';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 const material = [
   MatIconModule,
   MatListModule,
   MatCardModule,
+  MatMenuModule,
   MatInputModule,
   MatRippleModule,
   MatButtonModule,
   MatSelectModule,
+  MatDialogModule,
   MatToolbarModule,
   MatSidenavModule,
   MatSnackBarModule,
   MatFormFieldModule,
   MatDatepickerModule,
+  MatProgressBarModule,
 ];
 
 @NgModule({

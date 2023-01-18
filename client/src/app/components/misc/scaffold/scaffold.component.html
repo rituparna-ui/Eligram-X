@@ -15,12 +15,36 @@
         }}</a>
       </li>
     </ul>
-    <ul class="ul" *ngIf="isAuth">
-      <li class="li" *ngIf="user.role === 'ADMIN'">
-        <a class="a logout" routerLink="/admin/dashboard">ADMIN</a>
-      </li>
+    <ul class="ul align-items-center" *ngIf="isAuth">
       <li class="li">
+        <button mat-icon-button (click)="openCreatePostModal()">
+          <mat-icon>add_box</mat-icon>
+        </button>
+      </li>
+      <li class="li" *ngIf="user.role === 'ADMIN'">
+        <a class="a" routerLink="/admin/dashboard">ADMIN</a>
+      </li>
+      <li class="li" *ngIf="user.state != 0">
         <a class="a logout" (click)="logout()">Logout</a>
+      </li>
+      <li class="li" *ngIf="user.state == 0">
+        <button mat-icon-button [matMenuTriggerFor]="menu">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item [routerLink]="['/u', user.username]">
+            <mat-icon>account_circle</mat-icon>
+            <span>Profile</span>
+          </button>
+          <button mat-menu-item [routerLink]="['/u', user.username]">
+            <mat-icon>settings</mat-icon>
+            <span>Settings</span>
+          </button>
+          <button mat-menu-item (click)="logout()">
+            <mat-icon>logout</mat-icon>
+            <span>Logout</span>
+          </button>
+        </mat-menu>
       </li>
     </ul>
   </div>
@@ -39,6 +63,20 @@
         </li>
       </ul>
       <ul class="side-ul" *ngIf="isAuth">
+        <li class="li" *ngIf="user.role === 'ADMIN'">
+          <button
+            class="side-li-a"
+            mat-flat-button
+            (click)="openCreatePostModal()"
+          >
+            Add Post
+          </button>
+        </li>
+        <li class="li" *ngIf="user.role === 'ADMIN'">
+          <a class="side-li-a" mat-flat-button routerLink="/admin/dashboard">
+            ADMIN
+          </a>
+        </li>
         <li class="side-li" *ngIf="isAuth">
           <a class="side-li-a" mat-flat-button (click)="logout()">Logout</a>
         </li>

@@ -69,11 +69,13 @@ exports.verifyToken = async (req, res, next) => {
     if (!errors.isEmpty()) {
       throw new Error();
     }
-    const rToken = await getRedis().GET(req.body.token);
-    if (!rToken) {
-      throw new Error();
+    const payload = jwt.verify(req.body.token, 'secret');
+    if (payload.state == 0) {
+      const rToken = await getRedis().GET(req.body.token);
+      if (!rToken) {
+        throw new Error();
+      }
     }
-    jwt.verify(req.body.token, 'secret');
     return res.status(200).json({
       message: 'Token valid',
       status: 200,

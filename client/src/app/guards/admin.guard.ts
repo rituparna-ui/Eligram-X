@@ -1,4 +1,4 @@
-import { Injectable, OnDestroy, OnInit } from '@angular/core';
+import { Injectable } from '@angular/core';
 import {
   ActivatedRouteSnapshot,
   CanActivate,
@@ -6,8 +6,7 @@ import {
   RouterStateSnapshot,
   UrlTree,
 } from '@angular/router';
-import { Observable, Subscription } from 'rxjs';
-import { AuthServiceUser } from '../models/authUser.model';
+import { Observable } from 'rxjs';
 import { AuthService } from '../services/auth.service';
 
 @Injectable({
@@ -24,10 +23,8 @@ export class AdminGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    let user = this.authService.getUser();
-    this.authService.getUserNotifier().subscribe((sub) => {
-      user = sub;
-    });
+    const token = this.authService.getToken();
+    const user = JSON.parse(window.atob(token.split('.')[1]));
     if (user.role === 'ADMIN') {
       return true;
     }

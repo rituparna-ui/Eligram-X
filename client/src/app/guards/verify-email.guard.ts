@@ -23,7 +23,9 @@ export class VerifyEmailGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.authService.getUser().state == 2) {
+    const token = this.authService.getToken();
+    const user = JSON.parse(window.atob(token.split('.')[1]));
+    if (user.state == 2) {
       return true;
     }
     this.router.navigate(['/']);

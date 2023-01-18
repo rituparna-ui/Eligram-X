@@ -8,6 +8,7 @@ import { SignupComponent } from './components/auth/signup/signup.component';
 import { VerifyEmailComponent } from './components/auth/verify-email/verify-email.component';
 import { FeedComponent } from './components/home/feed/feed.component';
 import { NotFoundComponent } from './components/misc/not-found/not-found.component';
+import { ProfileHomeComponent } from './components/user/profile-home/profile-home.component';
 import { AdminGuard } from './guards/admin.guard';
 import { AnonymousGuard } from './guards/anonymous.guard';
 import { AuthGuard } from './guards/auth.guard';
@@ -55,6 +56,10 @@ const routes: Routes = [
         canActivate: [AuthGuard, AdminGuard],
       },
     ],
+  },
+  {
+    path: 'u/:username',
+    component: ProfileHomeComponent,
   },
   {
     path: 'not-found',

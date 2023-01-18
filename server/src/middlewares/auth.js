@@ -9,14 +9,15 @@ module.exports = () => {
     const token = req.headers?.authorization;
     try {
       const rToken = await getRedis().GET(token);
-      if (!rtoken) {
+      if (!rToken) {
         throw new Error();
       }
-      const payload = jwt.verify(rToken, 'secret');
+      const payload = jwt.verify(token, 'secret');
       const user = await User.findOne({ _id: payload.id });
       req.user = user;
       next();
     } catch (error) {
+      console.log(error);
       return next(
         errorBuilder({
           message: 'Invalid token',

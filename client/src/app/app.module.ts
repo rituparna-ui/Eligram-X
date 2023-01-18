@@ -26,6 +26,8 @@ import { GoogleComponent } from './components/auth/google/google.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
 import { NotFoundComponent } from './components/misc/not-found/not-found.component';
+import { ProfileHomeComponent } from './components/user/profile-home/profile-home.component';
+import { PostModalComponent } from './components/post/post-modal/post-modal.component';
 
 @NgModule({
   declarations: [
@@ -40,6 +42,8 @@ import { NotFoundComponent } from './components/misc/not-found/not-found.compone
     ForgotPasswordComponent,
     DashboardComponent,
     NotFoundComponent,
+    ProfileHomeComponent,
+    PostModalComponent,
   ],
   imports: [
     BrowserModule,
