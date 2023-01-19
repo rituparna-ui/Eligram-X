@@ -4,3 +4,29 @@
   border-radius: 100%;
   padding: 1px;
 }
+
+.cover-image {
+  width: 200px;
+  height: 300px;
+  margin: 8px;
+  object-fit: cover;
+}
+
+.cover-image:hover {
+  -webkit-transform: scale(1.05);
+  transform: scale(1.05);
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+.cover-image {
+  -webkit-transform: scale(1);
+  transform: scale(1);
+  -webkit-transition: 0.3s ease-in-out;
+  transition: 0.3s ease-in-out;
+}
+
+@media (max-width: 576px) {
+  .cover-image {
+    width: 100%;
+  }
+}

@@ -62,6 +62,8 @@ export class PostModalComponent implements OnInit {
         this.isLoading = false;
         this.dialogRef.close(result.data);
       })
-      .catch((err) => {});
+      .catch((err) => {
+        this.dialogRef.close();
+      });
   }
 }

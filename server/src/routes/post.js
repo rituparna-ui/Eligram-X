@@ -1,8 +1,13 @@
 const express = require('express');
 const Multer = require('multer');
-const FirebaseStorage = require('multer-firebase-storage');
+const FirebaseStorage = require('multer-firebase-sharp');
+const sharp = require('sharp');
 
-const { createPost, getAllPostsByUsername, getImageById } = require('../controllers/post');
+const {
+  createPost,
+  getAllPostsByUsername,
+  getImageById,
+} = require('../controllers/post');
 const auth = require('./../middlewares/auth');
 const serviceAccount = require('./../rituparna-a-firebase');
 
@@ -27,6 +32,7 @@ const multer = Multer({
         file.originalname = Date.now() + '_' + file.originalname;
       },
     },
+    sharpPipeline: sharp().webp({ lossless: true, quality: 50 }),
   }),
 });
 

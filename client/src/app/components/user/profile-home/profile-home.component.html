@@ -40,4 +40,21 @@
       </div>
     </div>
   </mat-card>
+  <br />
+  <mat-card>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col text-center">
+          <figure>
+            <img
+              *ngFor="let post of posts; let i = index"
+              [src]="'http://localhost:3000/api/posts/images/' + post.photos[0]"
+              class="cover-image"
+              (click)="onCoverClick(post._id, i)"
+            />
+          </figure>
+        </div>
+      </div>
+    </div>
+  </mat-card>
 </div>

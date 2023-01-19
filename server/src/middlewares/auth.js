@@ -17,7 +17,6 @@ module.exports = () => {
       req.user = user;
       next();
     } catch (error) {
-      console.log(error);
       return next(
         errorBuilder({
           message: 'Invalid token',

@@ -33,7 +33,6 @@ exports.createPost = async (req, res, next) => {
       status: 201,
     });
   } catch (error) {
-    console.log(error);
     await session.abortTransaction();
     return next(errorBuilder());
   } finally {
