@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
 import { CompleteProfileComponent } from './components/auth/complete-profile/complete-profile.component';
+import { DiscordComponent } from './components/auth/discord/discord.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
@@ -45,6 +46,11 @@ const routes: Routes = [
         path: 'complete-profile',
         component: CompleteProfileComponent,
         canActivate: [CompleteProfileGuard],
+      },
+      {
+        path: 'discord',
+        component: DiscordComponent,
+        canActivate: [AuthGuard],
       },
     ],
   },

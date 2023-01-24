@@ -32,6 +32,7 @@ import { SettingsComponent } from './components/user/settings/settings.component
 import { EditProfileComponent } from './components/user/settings/edit-profile/edit-profile.component';
 import { ChangePasswordComponent } from './components/user/settings/change-password/change-password.component';
 import { PrivacySecurityComponent } from './components/user/settings/privacy-security/privacy-security.component';
+import { DiscordComponent } from './components/auth/discord/discord.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { PrivacySecurityComponent } from './components/user/settings/privacy-sec
     EditProfileComponent,
     ChangePasswordComponent,
     PrivacySecurityComponent,
+    DiscordComponent,
   ],
   imports: [
     BrowserModule,

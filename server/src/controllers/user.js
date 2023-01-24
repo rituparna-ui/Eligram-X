@@ -15,6 +15,8 @@ exports.getCurrentUser = async (req, res, next) => {
       '_id',
       'profilePicture',
       'dateOfBirth',
+      'discord.username',
+      'discord.discriminator',
     ];
     const user = await User.findOne({ _id: id }).select(fetchDetails.join(' '));
     if (!user) {
@@ -46,6 +48,8 @@ exports.getUserByUsername = async (req, res, next) => {
       '_id',
       'profilePicture',
       'dateOfBirth',
+      'discord.username',
+      'discord.discriminator',
     ];
     const user = await User.findOne({ username }).select(
       fetchDetails.join(' ')

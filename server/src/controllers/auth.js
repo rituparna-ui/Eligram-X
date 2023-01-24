@@ -1,4 +1,5 @@
 const { validationResult } = require('express-validator');
+const axios = require('axios').default;
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
@@ -7,6 +8,7 @@ const { OAuth2Client } = require('google-auth-library');
 
 const errorBuilder = require('./../utls/error');
 const { getRedis } = require('../utls/db/redis');
+const { default: mongoose } = require('mongoose');
 
 const CLIENT_ID =
   '72244162417-815i1q0n7nh3i50n0c1c2tfv4taimvl9.apps.googleusercontent.com';
@@ -495,4 +497,79 @@ exports.logout = async (req, res, next) => {
   return res.status(200).json({
     message: 'Logged Out',
   });
+};
+
+exports.connectDiscord = async (req, res, next) => {
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const tokenResponseData = await axios
+      .post(
+        'https://discord.com/api/oauth2/token',
+        new URLSearchParams({
+          client_id: '1067374576994099200',
+          client_secret: 'dzZzXdr7LXuJe5RtuXyKII-WoOvDYQ4V',
+          code: req.body.code,
+          grant_type: 'authorization_code',
+          scope: 'identify guilds.join',
+          redirect_uri: 'http://localhost:4200/auth/discord',
+        }).toString(),
+        {
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+        }
+      )
+      .catch((e) => {
+        throw e;
+      });
+
+    const userData = await axios.get('https://discordapp.com/api/users/@me', {
+      headers: {
+        Authorization: `Bearer ${tokenResponseData.data.access_token}`,
+      },
+    });
+    const id = await getRedis().GET(req.body.token);
+    const user = await User.findOneAndUpdate(
+      { _id: id },
+      {
+        $set: {
+          discord: {
+            ...tokenResponseData.data,
+            ...userData.data,
+          },
+        },
+      },
+      { new: true, session }
+    );
+    axios
+      .put(
+        'https://discordapp.com/api/guilds/956107989817917480/members/' +
+          user.discord.id,
+        {
+          access_token: user.discord.access_token,
+        },
+        {
+          headers: {
+            Authorization:
+              'Bot MTA2NzM3NDU3Njk5NDA5OTIwMA.G44H0_.UCn9KzTIWSffVyEzeOTkNltaA8bpBiYsQGs6EM',
+            'Content-Type': 'application/json',
+          },
+        }
+      )
+      .then((result) => {
+        return res.status(201).json({
+          message: 'Discord Connected',
+          status: 201,
+          username: user.username,
+        });
+      })
+      .catch((err) => {
+        throw err;
+      });
+    await session.commitTransaction();
+  } catch (error) {
+    await session.abortTransaction();
+    return next(errorBuilder());
+  } finally {
+    session.endSession();
+  }
 };

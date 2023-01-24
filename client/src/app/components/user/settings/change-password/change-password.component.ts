@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -32,6 +32,7 @@ export class ChangePasswordComponent implements OnInit {
       ]),
     });
   }
+  
   onSubmit() {
     if (this.changePasswordForm.invalid) {
       return;

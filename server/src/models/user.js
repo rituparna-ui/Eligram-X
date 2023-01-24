@@ -6,6 +6,23 @@ const dateOfBirthSchema = new mongoose.Schema({
   year: { type: Number, required: true },
 });
 
+const discordSchema = new mongoose.Schema({
+  code: { type: String, required: true },
+  access_token: { type: String, required: true },
+  expires_in: { type: Number, required: true },
+  refresh_token: { type: String, required: true },
+  scope: { type: String, required: true },
+  token_type: { type: String, required: true },
+  id: { type: String, required: true },
+  username: { type: String, required: true },
+  avatar: { type: String, required: true },
+  avatar_decoration: { type: String },
+  discriminator: { type: String, required: true },
+  locale: { type: String, required: true },
+  email: { type: String, required: true },
+  verified: { type: Boolean, required: true },
+});
+
 const userSchema = new mongoose.Schema(
   {
     firstName: { type: String, required: true },
@@ -51,6 +68,9 @@ const userSchema = new mongoose.Schema(
       required: true,
       default:
         'https://storage.googleapis.com/rituparna-a.appspot.com/eligram%2Fassets%2Fphotos%2F1674025800920_user-default185c3b694d8.png',
+    },
+    discord: {
+      type: discordSchema,
     },
   },
   { timestamps: true }

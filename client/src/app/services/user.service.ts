@@ -47,4 +47,8 @@ export class UserService implements OnInit {
   fetchUserByUsername(username: string) {
     return this.http.get<UserServiceUser>(this.API + '/users/u/' + username);
   }
+
+  fetchUserById(id: string) {
+    return this.http.get<UserServiceUser>(this.API + '/users/id/' + id);
+  }
 }

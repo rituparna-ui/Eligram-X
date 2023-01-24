@@ -9,4 +9,8 @@ export interface UserServiceUser {
   _id: string;
   profilePicture: string;
   dateOfBirth: { date: number; month: number; year: number };
+  discord?: {
+    username: string;
+    discriminator: string;
+  };
 }

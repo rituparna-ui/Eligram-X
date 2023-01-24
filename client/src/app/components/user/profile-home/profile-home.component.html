@@ -38,6 +38,25 @@
       <div>
         <h2>{{ user?.username }}</h2>
       </div>
+      <div>
+        <a
+          *ngIf="!user?.discord"
+          mat-button
+          mat-flat-button
+          color="primary"
+          href="https://discord.com/api/oauth2/authorize?client_id=1067374576994099200&redirect_uri=http%3A%2F%2Flocalhost%3A4200%2Fauth%2Fdiscord&response_type=code&scope=identify%20email%20guilds.join"
+          >Connect To Discord <mat-icon>discord</mat-icon>
+        </a>
+        <button
+          mat-stroked-button
+          *ngIf="user?.discord"
+          style="font-size: large"
+        >
+          <mat-icon color="primary">discord</mat-icon>
+          {{ user?.discord?.username }}#{{ user?.discord?.discriminator }}
+        </button>
+      </div>
+      <br />
     </div>
   </mat-card>
   <br />

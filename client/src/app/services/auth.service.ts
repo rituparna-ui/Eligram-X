@@ -147,4 +147,23 @@ export class AuthService {
         this.router.navigate(['/']);
       });
   }
+
+  connectDiscord(code: string) {
+    this.http
+      .post<{ message: string; status: number; username: string }>(
+        this.API + '/auth/discord',
+        { code, token: this.token }
+      )
+      .subscribe({
+        next: (res) => {
+          this.router.navigate(['/u', res.username]);
+        },
+        error: (err) => {
+          this.snackBar.open('Error Connecting to discord', '', {
+            duration: 1500,
+          });
+          this.router.navigate(['/u', this.userService.getUser().username]);
+        },
+      });
+  }
 }
