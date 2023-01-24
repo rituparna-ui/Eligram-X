@@ -41,7 +41,7 @@
     </div>
   </mat-card>
   <br />
-  <mat-card>
+  <mat-card *ngIf="posts.length > 0; else noPosts">
     <div class="container-fluid">
       <div class="row">
         <div class="col text-center">
@@ -57,4 +57,8 @@
       </div>
     </div>
   </mat-card>
+  <ng-template #noPosts>
+    <h1 class="text-center">No Posts</h1>
+    <mat-divider></mat-divider>
+  </ng-template>
 </div>

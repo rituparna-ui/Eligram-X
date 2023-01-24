@@ -28,6 +28,10 @@ import { DashboardComponent } from './components/admin/dashboard/dashboard.compo
 import { NotFoundComponent } from './components/misc/not-found/not-found.component';
 import { ProfileHomeComponent } from './components/user/profile-home/profile-home.component';
 import { PostModalComponent } from './components/post/post-modal/post-modal.component';
+import { SettingsComponent } from './components/user/settings/settings.component';
+import { EditProfileComponent } from './components/user/settings/edit-profile/edit-profile.component';
+import { ChangePasswordComponent } from './components/user/settings/change-password/change-password.component';
+import { PrivacySecurityComponent } from './components/user/settings/privacy-security/privacy-security.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +48,10 @@ import { PostModalComponent } from './components/post/post-modal/post-modal.comp
     NotFoundComponent,
     ProfileHomeComponent,
     PostModalComponent,
+    SettingsComponent,
+    EditProfileComponent,
+    ChangePasswordComponent,
+    PrivacySecurityComponent,
   ],
   imports: [
     BrowserModule,

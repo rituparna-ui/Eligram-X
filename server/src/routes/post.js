@@ -29,10 +29,9 @@ const multer = Multer({
     hooks: {
       beforeUpload(req, file) {
         file.originalname = file.originalname.replace(/ /g, '_');
-        file.originalname = Date.now() + '_' + file.originalname;
+        file.originalname = Date.now() + '_' + file.originalname + '.png';
       },
     },
-    sharpPipeline: sharp().webp({ lossless: true, quality: 50 }),
   }),
 });
 
