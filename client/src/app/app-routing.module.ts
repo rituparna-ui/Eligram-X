@@ -9,9 +9,6 @@ import { VerifyEmailComponent } from './components/auth/verify-email/verify-emai
 import { FeedComponent } from './components/home/feed/feed.component';
 import { NotFoundComponent } from './components/misc/not-found/not-found.component';
 import { ProfileHomeComponent } from './components/user/profile-home/profile-home.component';
-import { ChangePasswordComponent } from './components/user/settings/change-password/change-password.component';
-import { EditProfileComponent } from './components/user/settings/edit-profile/edit-profile.component';
-import { PrivacySecurityComponent } from './components/user/settings/privacy-security/privacy-security.component';
 import { SettingsComponent } from './components/user/settings/settings.component';
 import { AdminGuard } from './guards/admin.guard';
 import { AnonymousGuard } from './guards/anonymous.guard';
@@ -68,6 +65,7 @@ const routes: Routes = [
   {
     path: 'settings',
     component: SettingsComponent,
+    canActivate: [AuthGuard],
   },
   {
     path: 'not-found',
