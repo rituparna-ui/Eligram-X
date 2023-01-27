@@ -12,8 +12,10 @@ const {
   resetPassword,
   logout,
   connectDiscord,
+  getUserSessions,
 } = require('../controllers/auth');
 const auth = require('../middlewares/auth');
+const verifyJwt = require('../middlewares/verify-jwt');
 const jwtAuth = require('../middlewares/verify-jwt');
 const User = require('./../models/user');
 
@@ -119,5 +121,7 @@ router.post(
 );
 
 router.post('/discord', connectDiscord);
+
+router.get('/sessions', verifyJwt(), getUserSessions);
 
 module.exports = router;

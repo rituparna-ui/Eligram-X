@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const vcode = require('./../utls/vcode');
+const mailer = require('./../utls/mailer');
 const { OAuth2Client } = require('google-auth-library');
 
 const errorBuilder = require('./../utls/error');
@@ -55,6 +56,20 @@ exports.signup = async (req, res, next) => {
       { id: user._id, state: user.state, role: user.role },
       'secret'
     );
+    mailer(
+      user.email,
+      'Verification Code',
+      `
+      Your Account verification code is
+      <h1>${user.vcode}</h1>
+    `
+    )
+      .then((result) => {
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     return res.status(201).json({
       message: 'Sign Up Successful',
       status: 201,
@@ -546,11 +561,15 @@ exports.connectDiscord = async (req, res, next) => {
           user.discord.id,
         {
           access_token: user.discord.access_token,
+          roles:
+            user.role === 'USER'
+              ? ['1067717785519669338']
+              : ['1056094735674126346'],
         },
         {
           headers: {
             Authorization:
-              'Bot MTA2NzM3NDU3Njk5NDA5OTIwMA.G44H0_.UCn9KzTIWSffVyEzeOTkNltaA8bpBiYsQGs6EM',
+              'Bot MTA2NzM3NDU3Njk5NDA5OTIwMA.GARvcS.jbJ1JZR-cN-NyO_eBsnzW4m5hmrhOStspIz97A',
             'Content-Type': 'application/json',
           },
         }
@@ -563,7 +582,11 @@ exports.connectDiscord = async (req, res, next) => {
         });
       })
       .catch((err) => {
-        throw err;
+        return res.status(201).json({
+          message: 'Error Connecting to Discord',
+          status: 403,
+          username: user.username,
+        });
       });
     await session.commitTransaction();
   } catch (error) {
@@ -571,5 +594,17 @@ exports.connectDiscord = async (req, res, next) => {
     return next(errorBuilder());
   } finally {
     session.endSession();
+  }
+};
+
+exports.getUserSessions = async (req, res, next) => {
+  try {
+    const sessions = await getRedis().json.GET('user:sessions:' + req.user._id);
+    return res.json({
+      message: 'Sessions Fetch',
+      sessions: sessions,
+    });
+  } catch (error) {
+    return next(errorBuilder());
   }
 };
