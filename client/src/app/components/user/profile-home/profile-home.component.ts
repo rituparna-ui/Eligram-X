@@ -13,6 +13,7 @@ import { UserService } from 'src/app/services/user.service';
 export class ProfileHomeComponent implements OnInit {
   user?: UserServiceUser;
   posts: Post[] = [];
+  currentUser?: UserServiceUser;
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -36,6 +37,7 @@ export class ProfileHomeComponent implements OnInit {
       .subscribe((data) => {
         this.posts = data.posts;
       });
+    this.currentUser = this.userService.getUser();
   }
   onCoverClick(_id: string, index: number) {
     console.log('post clicked ' + _id + ' at id ' + index);
@@ -46,4 +48,6 @@ export class ProfileHomeComponent implements OnInit {
     );
     console.log(this.posts[index].photos);
   }
+
+  disconnectDiscord() {}
 }

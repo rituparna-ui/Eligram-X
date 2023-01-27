@@ -166,4 +166,23 @@ export class AuthService {
         },
       });
   }
+
+  getUserSessions() {
+    return this.http.get<{
+      message: string;
+      sessions: {
+        sessions: [
+          {
+            [key: string]: {
+              browser: string;
+              ip: string;
+              os: string;
+              platform: string;
+              version: string;
+            };
+          }
+        ];
+      };
+    }>(this.API + '/auth/sessions');
+  }
 }
