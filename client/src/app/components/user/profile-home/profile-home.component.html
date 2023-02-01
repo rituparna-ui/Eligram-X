@@ -51,6 +51,7 @@
           mat-stroked-button
           *ngIf="user?.discord"
           style="font-size: large"
+          (click)="disconnectDiscord()"
         >
           <mat-icon color="primary">discord</mat-icon>
           {{ user?.discord?.username }}#{{ user?.discord?.discriminator }}
@@ -67,9 +68,7 @@
           <figure>
             <img
               *ngFor="let post of posts; let i = index"
-              [src]="
-                'http://localhost:3000/api/posts/images/' + post.photos[0]
-              "
+              [src]="'http://localhost:3000/api/posts/images/' + post.photos[0]"
               class="cover-image"
               (click)="onCoverClick(post._id, i)"
             />

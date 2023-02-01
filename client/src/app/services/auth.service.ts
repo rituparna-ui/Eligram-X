@@ -1,8 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { Subject } from 'rxjs';
+import { LoadingModalComponent } from '../components/misc/loading-modal/loading-modal.component';
 import { SignUpForm, AuthResponse, LoginForm } from '../models/auth.model';
 import { UserService } from './user.service';
 
@@ -19,7 +21,8 @@ export class AuthService {
     private http: HttpClient,
     private snackBar: MatSnackBar,
     private router: Router,
-    private userService: UserService
+    private userService: UserService,
+    private dialog: MatDialog
   ) {}
 
   postLogin(token: string) {
@@ -184,5 +187,21 @@ export class AuthService {
         ];
       };
     }>(this.API + '/auth/sessions');
+  }
+
+  disconnectDiscord() {
+    const dialogRef = this.dialog.open(LoadingModalComponent, {
+      disableClose: true,
+    });
+    this.http.post(this.API + '/auth/discord/disconnect', {}).subscribe({
+      next: (data) => {
+        dialogRef.close();
+        this.router.navigate(['/']);
+      },
+      error: (err) => {
+        this.snackBar.open('Error Disconnecting', '', { duration: 1500 });
+        dialogRef.close();
+      },
+    });
   }
 }

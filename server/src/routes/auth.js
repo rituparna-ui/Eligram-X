@@ -13,6 +13,7 @@ const {
   logout,
   connectDiscord,
   getUserSessions,
+  disconnectDiscord,
 } = require('../controllers/auth');
 const auth = require('../middlewares/auth');
 const verifyJwt = require('../middlewares/verify-jwt');
@@ -120,7 +121,9 @@ router.post(
   resetPassword
 );
 
-router.post('/discord', connectDiscord);
+router.post('/discord/disconnect', auth(), disconnectDiscord);
+
+router.post('/discord', auth(), connectDiscord);
 
 router.get('/sessions', verifyJwt(), getUserSessions);
 

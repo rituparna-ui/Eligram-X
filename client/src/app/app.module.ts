@@ -34,6 +34,7 @@ import { ChangePasswordComponent } from './components/user/settings/change-passw
 import { PrivacySecurityComponent } from './components/user/settings/privacy-security/privacy-security.component';
 import { DiscordComponent } from './components/auth/discord/discord.component';
 import { DisconnectDiscordModalComponent } from './components/auth/discord/disconnect-discord-modal/disconnect-discord-modal.component';
+import { LoadingModalComponent } from './components/misc/loading-modal/loading-modal.component';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { DisconnectDiscordModalComponent } from './components/auth/discord/disco
     PrivacySecurityComponent,
     DiscordComponent,
     DisconnectDiscordModalComponent,
+    LoadingModalComponent,
   ],
   imports: [
     BrowserModule,

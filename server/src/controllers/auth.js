@@ -518,25 +518,20 @@ exports.connectDiscord = async (req, res, next) => {
   const session = await mongoose.startSession();
   try {
     session.startTransaction();
-    const tokenResponseData = await axios
-      .post(
-        'https://discord.com/api/oauth2/token',
-        new URLSearchParams({
-          client_id: '1067374576994099200',
-          client_secret: 'dzZzXdr7LXuJe5RtuXyKII-WoOvDYQ4V',
-          code: req.body.code,
-          grant_type: 'authorization_code',
-          scope: 'identify guilds.join',
-          redirect_uri: 'http://localhost:4200/auth/discord',
-        }).toString(),
-        {
-          headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        }
-      )
-      .catch((e) => {
-        throw e;
-      });
-
+    const tokenResponseData = await axios.post(
+      'https://discord.com/api/oauth2/token',
+      new URLSearchParams({
+        client_id: '1067374576994099200',
+        client_secret: 'dzZzXdr7LXuJe5RtuXyKII-WoOvDYQ4V',
+        code: req.body.code,
+        grant_type: 'authorization_code',
+        scope: 'identify guilds.join',
+        redirect_uri: 'http://localhost:4200/auth/discord',
+      }).toString(),
+      {
+        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      }
+    );
     const userData = await axios.get('https://discordapp.com/api/users/@me', {
       headers: {
         Authorization: `Bearer ${tokenResponseData.data.access_token}`,
@@ -555,43 +550,77 @@ exports.connectDiscord = async (req, res, next) => {
       },
       { new: true, session }
     );
-    axios
-      .put(
-        'https://discordapp.com/api/guilds/956107989817917480/members/' +
-          user.discord.id,
-        {
-          access_token: user.discord.access_token,
-          roles:
-            user.role === 'USER'
-              ? ['1067717785519669338']
-              : ['1056094735674126346'],
+    await axios.put(
+      'https://discordapp.com/api/guilds/956107989817917480/members/' +
+        user.discord.id,
+      {
+        access_token: user.discord.access_token,
+        roles:
+          user.role === 'USER'
+            ? ['1067717785519669338']
+            : ['1056094735674126346'],
+      },
+      {
+        headers: {
+          Authorization:
+            'Bot MTA2NzM3NDU3Njk5NDA5OTIwMA.Gbs3Li.zNjC_4zkLh3KJXuY7gGZ8TAL2MuFpu0SVzdBzg',
+          'Content-Type': 'application/json',
         },
-        {
-          headers: {
-            Authorization:
-              'Bot MTA2NzM3NDU3Njk5NDA5OTIwMA.GARvcS.jbJ1JZR-cN-NyO_eBsnzW4m5hmrhOStspIz97A',
-            'Content-Type': 'application/json',
-          },
-        }
-      )
-      .then((result) => {
-        return res.status(201).json({
-          message: 'Discord Connected',
-          status: 201,
-          username: user.username,
-        });
-      })
-      .catch((err) => {
-        return res.status(201).json({
-          message: 'Error Connecting to Discord',
-          status: 403,
-          username: user.username,
-        });
-      });
+      }
+    );
     await session.commitTransaction();
+    return res.status(201).json({
+      message: 'Discord Connected',
+      status: 201,
+      username: user.username,
+    });
+  } catch (error) {
+    console.log(error);
+    await session.abortTransaction();
+    return res.status(403).json({
+      message: 'Error Connecting to Discord',
+      status: 403,
+      user: req.user.username,
+    });
+  } finally {
+    session.endSession();
+  }
+};
+
+exports.disconnectDiscord = async (req, res, next) => {
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const result = await axios.delete(
+      'https://discordapp.com/api/guilds/956107989817917480/members/' +
+        req.user.discord.id,
+      {
+        headers: {
+          Authorization:
+            'Bot MTA2NzM3NDU3Njk5NDA5OTIwMA.Gbs3Li.zNjC_4zkLh3KJXuY7gGZ8TAL2MuFpu0SVzdBzg',
+          'Content-Type': 'application/json',
+        },
+      }
+    );
+    await User.findOneAndUpdate(
+      { _id: req.user._id },
+      { $set: { discord: null } },
+      {
+        session,
+      }
+    );
+    await session.commitTransaction();
+    return res.status(201).json({
+      message: 'Discord disonnected',
+      status: 201,
+    });
   } catch (error) {
     await session.abortTransaction();
-    return next(errorBuilder());
+    return res.status(403).json({
+      message: 'Error disconnecting from discord',
+      status: 403,
+      username: req.user.username,
+    });
   } finally {
     session.endSession();
   }

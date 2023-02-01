@@ -1,1 +1,21 @@
-<p>disconnect-discord-modal works!</p>
+<div class="m-4">
+  <h2 class="m-2">Are you sure you want to disconnect discord ?</h2>
+  <br />
+  <br />
+  <div class="d-flex justify-content-around">
+    <button
+      mat-raised-button
+      style="background-color: green; color: white"
+      [mat-dialog-close]="false"
+    >
+      No
+    </button>
+    <button
+      mat-raised-button
+      style="background-color: red; color: white"
+      [mat-dialog-close]="true"
+    >
+      Yes
+    </button>
+  </div>
+</div>
