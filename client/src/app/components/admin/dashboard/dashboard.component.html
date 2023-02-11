@@ -1,1 +1,131 @@
-<p>dashboard works!</p>
+<div class="container">
+  <h1 class="mat-headline-3" style="margin-bottom: 16px">Dashboard</h1>
+  <mat-card class="w-100 p-2" matRipple>
+    <div class="d-flex justify-content-around">
+      <div class="d-flex flex-column align-items-center">
+        <a mat-icon-button><mat-icon>manage_accounts</mat-icon></a>
+        Users
+      </div>
+      <div class="d-flex flex-column align-items-center">
+        <a mat-icon-button><mat-icon>mms</mat-icon></a>
+        Posts
+      </div>
+    </div>
+  </mat-card>
+  <br />
+  <br />
+  <h2 class="mat-headline-4 mb-4">Status</h2>
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-12">
+      <app-status-card
+        title="Online"
+        color="green"
+        [count]="dashboardData?.status?.onlineUsers || 0"
+      ></app-status-card>
+    </div>
+    <div class="col-md-3 col-sm-6 col-12">
+      <app-status-card
+        title="Idle"
+        color="#da980c"
+        [count]="dashboardData?.status?.idleUsers || 0"
+      ></app-status-card>
+    </div>
+    <div class="col-md-3 col-sm-6 col-12">
+      <app-status-card
+        title="Offline"
+        color="red"
+        [count]="dashboardData?.status?.offlineUsers || 0"
+      ></app-status-card>
+    </div>
+  </div>
+  <br />
+  <br />
+  <h2 class="mat-headline-4 mb-4">Users</h2>
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-12">
+      <app-status-card
+        title="All"
+        color="green"
+        icon="group"
+        [count]="dashboardData?.users?.allUsers || 0"
+      ></app-status-card>
+    </div>
+    <div class="col-md-3 col-sm-6 col-12">
+      <app-status-card
+        title="Banned"
+        icon="remove_moderator"
+        color="red"
+        [count]="dashboardData?.users?.bannedUsers || 0"
+      ></app-status-card>
+    </div>
+    <div class="col-md-3 col-sm-6 col-12">
+      <app-status-card
+        title="Admins"
+        color="green"
+        icon="local_police"
+        [count]="dashboardData?.users?.adminUsers || 0"
+      ></app-status-card>
+    </div>
+    <div class="col-md-3 col-sm-6 col-12">
+      <app-status-card
+        title="Admin Verified"
+        color="green"
+        icon="verified_user"
+        [count]="dashboardData?.users?.adminVerifiedUsers || 0"
+      ></app-status-card>
+    </div>
+  </div>
+  <br />
+  <br />
+  <h2 class="mat-headline-4 mb-4">Profiles</h2>
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-12">
+      <app-status-card
+        title="Complete"
+        color="teal"
+        icon="verified"
+        [count]="dashboardData?.profiles?.completeProfile || 0"
+      ></app-status-card>
+    </div>
+    <div class="col-md-3 col-sm-6 col-12">
+      <app-status-card
+        title="Email Verified"
+        color="green"
+        icon="check_circle"
+        [count]="dashboardData?.profiles?.emailVerified || 0"
+      ></app-status-card>
+    </div>
+    <div class="col-md-3 col-sm-6 col-12">
+      <app-status-card
+        title="Email Unverified"
+        color="red"
+        icon="dangerous"
+        [count]="dashboardData?.profiles?.emailUnverified || 0"
+      ></app-status-card>
+    </div>
+  </div>
+  <br />
+  <br />
+  <h2 class="mat-headline-4 mb-4">Reports</h2>
+  <div class="row">
+    <div class="col-md-3 col-sm-6 col-12">
+      <app-status-card
+        title="Posts"
+        color="red"
+        icon="chat_error"
+        [count]="dashboardData?.reports?.postReports || 0"
+      ></app-status-card>
+    </div>
+    <div class="col-md-3 col-sm-6 col-12">
+      <app-status-card
+        title="Users"
+        color="teal"
+        icon="flag"
+        [count]="dashboardData?.reports?.userReports || 0"
+      ></app-status-card>
+    </div>
+  </div>
+  <br />
+  <br />
+  <br />
+</div>

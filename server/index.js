@@ -6,11 +6,15 @@ const MONGO = require('./src/utls/db/mongo');
 const REDIS = require('./src/utls/db/redis');
 const API_ROUTES = require('./src/routes');
 
+const lastSeen = require('./src/middlewares/lastSeen');
+
 const app = express();
 
 app.use(cors());
 app.use(express.json());
 app.use(useragentParser.express());
+
+app.use(lastSeen());
 
 app.use('/api', API_ROUTES);
 

@@ -72,6 +72,10 @@ const userSchema = new mongoose.Schema(
     discord: {
       type: discordSchema,
     },
+    // online-less than 2 minutes | idle- 3 to 5 minutes | offline- 5+ minutes
+    lastSeen: { type: Number, default: Date.now() / 1000, required: true },
+    banned: { type: Boolean, default: false, required: true },
+    adminVerified: { type: Boolean, default: false, required: true },
   },
   { timestamps: true }
 );
