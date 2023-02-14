@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
+import { UsersComponent } from './components/admin/users/users.component';
 import { CompleteProfileComponent } from './components/auth/complete-profile/complete-profile.component';
 import { DiscordComponent } from './components/auth/discord/discord.component';
 import { ForgotPasswordComponent } from './components/auth/forgot-password/forgot-password.component';
@@ -61,6 +62,15 @@ const routes: Routes = [
         path: 'dashboard',
         component: DashboardComponent,
         canActivate: [AuthGuard, AdminGuard],
+      },
+      {
+        path: 'users',
+        component: UsersComponent,
+        canActivate: [AuthGuard, AdminGuard],
+      },
+      {
+        path: '**',
+        redirectTo: '/admin/dashboard',
       },
     ],
   },

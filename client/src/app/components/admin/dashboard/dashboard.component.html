@@ -17,25 +17,43 @@
   <h2 class="mat-headline-4 mb-4">Status</h2>
   <div class="row">
     <div class="col-md-3 col-sm-6 col-12">
-      <app-status-card
-        title="Online"
-        color="green"
-        [count]="dashboardData?.status?.onlineUsers || 0"
-      ></app-status-card>
+      <a
+        [routerLink]="['/admin', 'users']"
+        [queryParams]="{ status: 'online' }"
+        class="card-link"
+      >
+        <app-status-card
+          title="Online"
+          color="green"
+          [count]="dashboardData?.status?.onlineUsers || 0"
+        ></app-status-card>
+      </a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <app-status-card
-        title="Idle"
-        color="#da980c"
-        [count]="dashboardData?.status?.idleUsers || 0"
-      ></app-status-card>
+      <a
+        [routerLink]="['/admin', 'users']"
+        [queryParams]="{ status: 'idle' }"
+        class="card-link"
+      >
+        <app-status-card
+          title="Idle"
+          color="#da980c"
+          [count]="dashboardData?.status?.idleUsers || 0"
+        ></app-status-card
+      ></a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <app-status-card
-        title="Offline"
-        color="red"
-        [count]="dashboardData?.status?.offlineUsers || 0"
-      ></app-status-card>
+      <a
+        [routerLink]="['/admin', 'users']"
+        [queryParams]="{ status: 'offline' }"
+        class="card-link"
+      >
+        <app-status-card
+          title="Offline"
+          color="red"
+          [count]="dashboardData?.status?.offlineUsers || 0"
+        ></app-status-card
+      ></a>
     </div>
   </div>
   <br />
@@ -43,36 +61,56 @@
   <h2 class="mat-headline-4 mb-4">Users</h2>
   <div class="row">
     <div class="col-md-3 col-sm-6 col-12">
-      <app-status-card
-        title="All"
-        color="green"
-        icon="group"
-        [count]="dashboardData?.users?.allUsers || 0"
-      ></app-status-card>
+      <a [routerLink]="['/admin', 'users']" class="card-link">
+        <app-status-card
+          title="All"
+          color="green"
+          icon="group"
+          [count]="dashboardData?.users?.allUsers || 0"
+        ></app-status-card
+      ></a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <app-status-card
-        title="Banned"
-        icon="remove_moderator"
-        color="red"
-        [count]="dashboardData?.users?.bannedUsers || 0"
-      ></app-status-card>
+      <a
+        [routerLink]="['/admin', 'users']"
+        [queryParams]="{ users: 'banned' }"
+        class="card-link"
+      >
+        <app-status-card
+          title="Banned"
+          icon="remove_moderator"
+          color="red"
+          [count]="dashboardData?.users?.bannedUsers || 0"
+        ></app-status-card
+      ></a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <app-status-card
-        title="Admins"
-        color="green"
-        icon="local_police"
-        [count]="dashboardData?.users?.adminUsers || 0"
-      ></app-status-card>
+      <a
+        [routerLink]="['/admin', 'users']"
+        [queryParams]="{ users: 'admins' }"
+        class="card-link"
+      >
+        <app-status-card
+          title="Admins"
+          color="green"
+          icon="local_police"
+          [count]="dashboardData?.users?.adminUsers || 0"
+        ></app-status-card
+      ></a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <app-status-card
-        title="Admin Verified"
-        color="green"
-        icon="verified_user"
-        [count]="dashboardData?.users?.adminVerifiedUsers || 0"
-      ></app-status-card>
+      <a
+        [routerLink]="['/admin', 'users']"
+        [queryParams]="{ users: 'admin-verified' }"
+        class="card-link"
+      >
+        <app-status-card
+          title="Admin Verified"
+          color="green"
+          icon="verified_user"
+          [count]="dashboardData?.users?.adminVerifiedUsers || 0"
+        ></app-status-card
+      ></a>
     </div>
   </div>
   <br />
@@ -80,28 +118,46 @@
   <h2 class="mat-headline-4 mb-4">Profiles</h2>
   <div class="row">
     <div class="col-md-3 col-sm-6 col-12">
-      <app-status-card
-        title="Complete"
-        color="teal"
-        icon="verified"
-        [count]="dashboardData?.profiles?.completeProfile || 0"
-      ></app-status-card>
+      <a
+        [routerLink]="['/admin', 'users']"
+        [queryParams]="{ profile: 'complete' }"
+        class="card-link"
+      >
+        <app-status-card
+          title="Complete"
+          color="teal"
+          icon="verified"
+          [count]="dashboardData?.profiles?.completeProfile || 0"
+        ></app-status-card
+      ></a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <app-status-card
-        title="Email Verified"
-        color="green"
-        icon="check_circle"
-        [count]="dashboardData?.profiles?.emailVerified || 0"
-      ></app-status-card>
+      <a
+        [routerLink]="['/admin', 'users']"
+        [queryParams]="{ profile: 'email-verified' }"
+        class="card-link"
+      >
+        <app-status-card
+          title="Email Verified"
+          color="green"
+          icon="check_circle"
+          [count]="dashboardData?.profiles?.emailVerified || 0"
+        ></app-status-card
+      ></a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <app-status-card
-        title="Email Unverified"
-        color="red"
-        icon="dangerous"
-        [count]="dashboardData?.profiles?.emailUnverified || 0"
-      ></app-status-card>
+      <a
+        [routerLink]="['/admin', 'users']"
+        [queryParams]="{ profile: 'email-unverified' }"
+        class="card-link"
+      >
+        <app-status-card
+          title="Email Unverified"
+          color="red"
+          icon="dangerous"
+          [count]="dashboardData?.profiles?.emailUnverified || 0"
+        ></app-status-card
+      ></a>
     </div>
   </div>
   <br />

@@ -66,3 +66,11 @@ exports.getDashboard = async (req, res, next) => {
     next(errorBuilder());
   }
 };
+
+exports.getUsersByFilter = async (req, res, next) => {
+  if (req.body.filters.status) {
+    console.log('online offline');
+  } else {
+    console.log('not present');
+  }
+};

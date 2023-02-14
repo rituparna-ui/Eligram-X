@@ -14,4 +14,8 @@ export class AdminService {
       this.API + '/admin/dashboard'
     );
   }
+
+  getUsersByFilter(filters?: any) {
+    return this.http.post(this.API + '/admin/users', { filters });
+  }
 }
