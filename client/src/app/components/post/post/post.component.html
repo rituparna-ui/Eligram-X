@@ -1,0 +1,14 @@
+<div class="container p-3 d-flex justify-content-center">
+  <div
+    class="post text-center py-3"
+    (dblclick)="likePost()"
+    (contextmenu)="openContextMenu($event, { _id: post._id })"
+  >
+    <p>{{ post.caption }}</p>
+    <img
+      [src]="'http://localhost:3000/api/posts/images/' + post.photos[0]"
+      [alt]="post.caption"
+      style="width: 200px; height: 300px; object-fit: cover"
+    />
+  </div>
+</div>

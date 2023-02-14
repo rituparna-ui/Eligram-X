@@ -17,12 +17,18 @@ export class PrivacySecurityComponent implements OnInit {
     };
   }[] = [];
 
+  keys: string[] = [];
+
   constructor(private authService: AuthService) {}
   ngOnInit(): void {
     this.authService.getUserSessions().subscribe((data) => {
-      data.sessions.sessions.forEach((x) => {
-        console.log(x[Object.keys(x)[0]]);
+      this.userSessions = data.sessions.sessions;
+      const keys: string[] = [];
+      this.userSessions.forEach((x) => {
+        keys.push(Object.keys(x)[0]);
       });
+      this.keys = keys;
+      console.log(this.keys);
     });
   }
 }

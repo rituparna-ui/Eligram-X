@@ -49,13 +49,13 @@ export class UsersComponent implements OnInit, OnDestroy {
     this.paramSubscription.unsubscribe();
   }
   ngOnInit(): void {
-    this.paramSubscription = this.route.queryParams.subscribe((params) => {
-      console.log(params);
-      this.adminService.getUsersByFilter(params).subscribe(console.log);
-    });
-    this.adminService
-      .getUsersByFilter(this.route.snapshot.queryParams)
-      .subscribe();
+    // this.paramSubscription = this.route.queryParams.subscribe((params) => {
+    //   console.log(params);
+    //   this.adminService.getUsersByFilter(params).subscribe(console.log);
+    // });
+    // this.adminService
+    //   .getUsersByFilter(this.route.snapshot.queryParams)
+    //   .subscribe();
   }
 
   applyFilters() {

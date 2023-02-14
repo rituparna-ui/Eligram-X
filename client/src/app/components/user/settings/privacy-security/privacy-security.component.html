@@ -1,1 +1,7 @@
-<p>privacy-security works!</p>
+<div class="container" style="height: 100%">
+  rituparna
+  <div *ngFor="let session of userSessions; let i = index">
+    {{ session[keys[i]] | json }}
+    <button mat-button>Revoke</button>
+  </div>
+</div>

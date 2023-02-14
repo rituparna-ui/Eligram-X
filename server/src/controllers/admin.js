@@ -67,10 +67,40 @@ exports.getDashboard = async (req, res, next) => {
   }
 };
 
-exports.getUsersByFilter = async (req, res, next) => {
-  if (req.body.filters.status) {
-    console.log('online offline');
-  } else {
-    console.log('not present');
+exports.getAllUsers = async (req, res, next) => {
+  try {
+    const data = [
+      'firstName',
+      'lastName',
+      'email',
+      'username',
+      'state',
+      'role',
+      'lastSeen',
+      'banned',
+      'adminVerified',
+    ];
+    const currentPage = +req.query.page + 1 || 0;
+    const totalCount = await User.countDocuments();
+    const users = await User.find()
+      .select(data.join(' '))
+      .skip(20 * (currentPage - 1))
+      .limit(20)
+      .lean();
+    return res.json({
+      message: 'Users Fetched',
+      totalCount,
+      users,
+    });
+  } catch (error) {
+    return next(errorBuilder());
   }
 };
+
+exports.getUsersByStatus = async (req, res, next) => {
+  console.log(req.params);
+};
+
+exports.getUsersByType = async (req, res, next) => {};
+
+exports.getUsersByProfile = async (req, res, next) => {};

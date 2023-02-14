@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardComponent } from './components/admin/dashboard/dashboard.component';
+import { DatatableComponent } from './components/admin/datatable/datatable.component';
 import { UsersComponent } from './components/admin/users/users.component';
 import { CompleteProfileComponent } from './components/auth/complete-profile/complete-profile.component';
 import { DiscordComponent } from './components/auth/discord/discord.component';
@@ -65,7 +66,7 @@ const routes: Routes = [
       },
       {
         path: 'users',
-        component: UsersComponent,
+        component: DatatableComponent,
         canActivate: [AuthGuard, AdminGuard],
       },
       {

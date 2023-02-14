@@ -37,6 +37,8 @@ import { DisconnectDiscordModalComponent } from './components/auth/discord/disco
 import { LoadingModalComponent } from './components/misc/loading-modal/loading-modal.component';
 import { StatusCardComponent } from './components/admin/dashboard/status-card/status-card.component';
 import { UsersComponent } from './components/admin/users/users.component';
+import { PostComponent } from './components/post/post/post.component';
+import { DatatableComponent } from './components/admin/datatable/datatable.component';
 
 @NgModule({
   declarations: [
@@ -62,6 +64,8 @@ import { UsersComponent } from './components/admin/users/users.component';
     LoadingModalComponent,
     StatusCardComponent,
     UsersComponent,
+    PostComponent,
+    DatatableComponent,
   ],
   imports: [
     BrowserModule,

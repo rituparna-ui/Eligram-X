@@ -1,1 +1,4 @@
-<p>feed works!</p>
+<div class="container">
+  <p class="text-center">Double click to like a post</p>
+  <app-post *ngFor="let post of feed" [post]="post"></app-post>
+</div>

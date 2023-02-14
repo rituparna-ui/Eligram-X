@@ -17,6 +17,9 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTableModule } from '@angular/material/table';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 
 const material = [
   MatIconModule,
@@ -24,6 +27,7 @@ const material = [
   MatCardModule,
   MatTabsModule,
   MatMenuModule,
+  MatTableModule,
   MatInputModule,
   MatRippleModule,
   MatButtonModule,
@@ -32,9 +36,11 @@ const material = [
   MatToolbarModule,
   MatSidenavModule,
   MatSnackBarModule,
+  MatPaginatorModule,
   MatFormFieldModule,
   MatDatepickerModule,
   MatProgressBarModule,
+  MatSlideToggleModule,
   MatProgressSpinnerModule,
 ];
 

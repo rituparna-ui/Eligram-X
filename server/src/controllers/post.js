@@ -85,3 +85,15 @@ exports.getImageById = async (req, res, next) => {
     return next(errorBuilder());
   }
 };
+
+exports.getFeed = async (req, res, next) => {
+  try {
+    const posts = await Post.find().limit(20).exec();
+    return res.json({
+      message: 'Feed fetched',
+      feed: posts,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
