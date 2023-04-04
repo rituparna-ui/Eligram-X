@@ -27,7 +27,7 @@
         Photos:
         <br />
         <img
-          src=""
+          [src]="'http://localhost:3000/api/posts/images/' + photo"
           [alt]="photo"
           *ngFor="let photo of report.post.photos"
           height="100px"
