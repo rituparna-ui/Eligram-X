@@ -17,6 +17,24 @@
         </div>
       </div>
       <br />
+      <div>
+        Post Caption:
+        <br />
+        {{ report.post.caption }}
+      </div>
+      <br />
+      <div>
+        Photos:
+        <br />
+        <img
+          src=""
+          [alt]="photo"
+          *ngFor="let photo of report.post.photos"
+          height="100px"
+          width="100px"
+        />
+      </div>
+      <br />
       <mat-divider></mat-divider>
       <br />
       <div class="d-flex justify-content-between">
@@ -27,7 +45,13 @@
           <button mat-stroked-button>Ban Author</button>
         </div>
         <div>
-          <button mat-raised-button color="accent">Dismiss Report</button>
+          <button
+            mat-raised-button
+            color="accent"
+            (click)="dismissReports(report.post._id)"
+          >
+            Dismiss Report
+          </button>
         </div>
       </div>
     </mat-card>

@@ -15,4 +15,13 @@ export class ReportService {
       reports: PostReport[];
     }>(this.API + '/admin/reports/posts');
   }
+
+  dismissReport(postId: string) {
+    return this.http.post<{ message: string }>(
+      this.API + '/admin/reports/posts/dismiss',
+      {
+        postId,
+      }
+    );
+  }
 }

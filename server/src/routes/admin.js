@@ -12,6 +12,7 @@ const {
   getEmailVerifiedUsers,
   getUnverifiedUsers,
   getPostReports,
+  dismissPostReport,
 } = require('../controllers/admin');
 const router = express.Router();
 
@@ -38,5 +39,7 @@ router.get('/users/verified', getEmailVerifiedUsers);
 router.get('/users/unverified', getUnverifiedUsers);
 
 router.get('/reports/posts', getPostReports);
+
+router.post('/reports/posts/dismiss', dismissPostReport);
 
 module.exports = router;

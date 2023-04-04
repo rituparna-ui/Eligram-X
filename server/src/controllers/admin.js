@@ -478,3 +478,15 @@ exports.getPostReports = async (req, res, next) => {
     return next(errorBuilder());
   }
 };
+
+exports.dismissPostReport = async (req, res, next) => {
+  try {
+    const { postId } = req.body;
+    await PostReport.deleteMany({ reportedPost: postId });
+    return res.json({
+      message: 'All Reports related to this post dismissed',
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
