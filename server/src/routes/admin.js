@@ -1,15 +1,30 @@
 const express = require('express');
-const { getDashboard, getAllUsers } = require('../controllers/admin');
+const {
+  getDashboard,
+  getAllUsers,
+  getOnlineUsers,
+  getIdleUsers,
+  getOfflineUsers,
+  getBannedUsers,
+  getAllAdmins,
+  getAdminVerifiedUsers,
+} = require('../controllers/admin');
 const router = express.Router();
 
 router.get('/dashboard', getDashboard);
 
-router.get('/users', getAllUsers);
+router.get('/users/all', getAllUsers);
 
-router.post('/users/status/:status');
+router.get('/users/online', getOnlineUsers);
 
-router.post('/users/users/:type');
+router.get('/users/idle', getIdleUsers);
 
-router.post('/users/profiles/:profile');
+router.get('/users/offline', getOfflineUsers);
+
+router.get('/users/banned', getBannedUsers);
+
+router.get('/users/admins', getAllAdmins);
+
+router.get('/users/admin-verified', getAdminVerifiedUsers);
 
 module.exports = router;

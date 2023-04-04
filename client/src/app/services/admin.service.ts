@@ -16,23 +16,73 @@ export class AdminService {
     );
   }
 
-  getUsers(page?: number) {
+  getAllUsers(page?: number) {
     return this.http.get<{
       message: string;
       users: User[];
       totalCount: number;
-    }>(this.API + '/admin/users', {
+    }>(this.API + '/admin/users/all', {
       params: new HttpParams().append('page', page || 0),
     });
   }
 
-  getUsersByStatus(status: string) {
+  getOnlineUsers(page?: number) {
     return this.http.get<{
       message: string;
       users: User[];
       totalCount: number;
-    }>(this.API + '/admin/users', {
-      params: new HttpParams().append('status', status),
+    }>(this.API + '/admin/users/online', {
+      params: new HttpParams().append('page', page || 0),
+    });
+  }
+
+  getIdleUsers(page?: number) {
+    return this.http.get<{
+      message: string;
+      users: User[];
+      totalCount: number;
+    }>(this.API + '/admin/users/idle', {
+      params: new HttpParams().append('page', page || 0),
+    });
+  }
+
+  getOfflineUsers(page?: number) {
+    return this.http.get<{
+      message: string;
+      users: User[];
+      totalCount: number;
+    }>(this.API + '/admin/users/offline', {
+      params: new HttpParams().append('page', page || 0),
+    });
+  }
+
+  getBannedUsers(page?: number) {
+    return this.http.get<{
+      message: string;
+      users: User[];
+      totalCount: number;
+    }>(this.API + '/admin/users/banned', {
+      params: new HttpParams().append('page', page || 0),
+    });
+  }
+
+  getAllAdmins(page?: number) {
+    return this.http.get<{
+      message: string;
+      users: User[];
+      totalCount: number;
+    }>(this.API + '/admin/users/admins', {
+      params: new HttpParams().append('page', page || 0),
+    });
+  }
+
+  getAllAdminVerifiedUsers(page?: number) {
+    return this.http.get<{
+      message: string;
+      users: User[];
+      totalCount: number;
+    }>(this.API + '/admin/users/admin-verified', {
+      params: new HttpParams().append('page', page || 0),
     });
   }
 }

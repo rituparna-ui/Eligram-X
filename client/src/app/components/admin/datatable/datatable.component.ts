@@ -32,21 +32,51 @@ export class DatatableComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (Object.keys(this.route.snapshot.queryParams).length == 0) {
-      this.adminService.getUsers().subscribe((data) => {
+    const filter = this.route.snapshot.params['filter'];
+    if (filter === 'all') {
+      this.adminService.getAllUsers().subscribe((data) => {
         this.ELEMENT_DATA = data.users;
         this.totalCount = data.totalCount;
         this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
       });
-    }
-    if (this.route.snapshot.queryParams['status']) {
-      this.adminService
-        .getUsersByStatus(this.route.snapshot.queryParams['status'])
-        .subscribe((data) => {
-          this.ELEMENT_DATA = data.users;
-          this.totalCount = data.totalCount;
-          this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
-        });
+    } else if (filter === 'online') {
+      this.adminService.getOnlineUsers().subscribe((data) => {
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else if (filter === 'idle') {
+      this.adminService.getIdleUsers().subscribe((data) => {
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else if (filter === 'offline') {
+      this.adminService.getOfflineUsers().subscribe((data) => {
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else if (filter === 'banned') {
+      this.adminService.getBannedUsers().subscribe((data) => {
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else if (filter === 'admins') {
+      this.adminService.getAllAdmins().subscribe((data) => {
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else if (filter === 'admin-verified') {
+      this.adminService.getAllAdminVerifiedUsers().subscribe((data) => {
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else {
+      console.log('first');
     }
   }
 
@@ -75,11 +105,60 @@ export class DatatableComponent implements OnInit {
   }
   pageChange(event: PageEvent) {
     this.isLoading = true;
-    this.adminService.getUsers(event.pageIndex).subscribe((data) => {
-      this.isLoading = false;
-      this.ELEMENT_DATA = data.users;
-      this.totalCount = data.totalCount;
-      this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
-    });
+    const filter = this.route.snapshot.params['filter'];
+    if (filter === 'all') {
+      this.adminService.getAllUsers(event.pageIndex).subscribe((data) => {
+        this.isLoading = false;
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else if (filter === 'online') {
+      this.adminService.getOnlineUsers(event.pageIndex).subscribe((data) => {
+        this.isLoading = false;
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else if (filter === 'idle') {
+      this.adminService.getIdleUsers(event.pageIndex).subscribe((data) => {
+        this.isLoading = false;
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else if (filter === 'offline') {
+      this.adminService.getOfflineUsers(event.pageIndex).subscribe((data) => {
+        this.isLoading = false;
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else if (filter === 'banned') {
+      this.adminService.getBannedUsers(event.pageIndex).subscribe((data) => {
+        this.isLoading = false;
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else if (filter === 'admins') {
+      this.adminService.getAllAdmins(event.pageIndex).subscribe((data) => {
+        this.isLoading = false;
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else if (filter === 'admin-verified') {
+      this.adminService
+        .getAllAdminVerifiedUsers(event.pageIndex)
+        .subscribe((data) => {
+          this.isLoading = false;
+          this.ELEMENT_DATA = data.users;
+          this.totalCount = data.totalCount;
+          this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+        });
+    } else {
+      console.log('first');
+    }
   }
 }

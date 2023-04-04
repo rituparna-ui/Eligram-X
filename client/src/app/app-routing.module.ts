@@ -65,9 +65,48 @@ const routes: Routes = [
         canActivate: [AuthGuard, AdminGuard],
       },
       {
-        path: 'users',
+        path: 'users/:filter',
         component: DatatableComponent,
         canActivate: [AuthGuard, AdminGuard],
+        // children: [
+        //   {
+        //     path: 'online',
+        //     component: DatatableComponent,
+        //     data: { filter: 'online' },
+        //   },
+        //   {
+        //     path: 'idle',
+        //     component: DatatableComponent,
+        //   },
+        //   {
+        //     path: 'offline',
+        //     component: DatatableComponent,
+        //   },
+        //   {
+        //     path: 'banned',
+        //     component: DatatableComponent,
+        //   },
+        //   {
+        //     path: 'admins',
+        //     component: DatatableComponent,
+        //   },
+        //   {
+        //     path: 'admin-verified',
+        //     component: DatatableComponent,
+        //   },
+        //   {
+        //     path: 'complete',
+        //     component: DatatableComponent,
+        //   },
+        //   {
+        //     path: 'verified',
+        //     component: DatatableComponent,
+        //   },
+        //   {
+        //     path: 'unverified',
+        //     component: DatatableComponent,
+        //   },
+        // ],
       },
       {
         path: '**',

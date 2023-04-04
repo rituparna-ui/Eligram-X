@@ -7,6 +7,7 @@ const {
   getAllPostsByUsername,
   getImageById,
   getFeed,
+  postReport,
 } = require('../controllers/post');
 
 const auth = require('./../middlewares/auth');
@@ -20,5 +21,7 @@ router.get('/u/:username', getAllPostsByUsername);
 router.get('/images/:id', getImageById);
 
 router.get('/feed', getFeed);
+
+router.post('/report', auth(), postReport);
 
 module.exports = router;

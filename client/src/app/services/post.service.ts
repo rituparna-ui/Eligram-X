@@ -24,4 +24,9 @@ export class PostService {
   likePost(id: string) {
     this.snackBar.open('Post Liked', '', { duration: 1000 });
   }
+  reportPost(id: string) {
+    return this.http.post(this.API + '/posts/report', {
+      post: id,
+    });
+  }
 }

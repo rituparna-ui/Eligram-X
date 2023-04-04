@@ -97,10 +97,205 @@ exports.getAllUsers = async (req, res, next) => {
   }
 };
 
-exports.getUsersByStatus = async (req, res, next) => {
-  console.log(req.params);
+exports.getOnlineUsers = async (req, res, next) => {
+  try {
+    const now = Date.now() / 1000;
+    const data = [
+      'firstName',
+      'lastName',
+      'email',
+      'username',
+      'state',
+      'role',
+      'lastSeen',
+      'banned',
+      'adminVerified',
+    ];
+    const currentPage = +req.query.page + 1 || 0;
+    const totalCount = await User.countDocuments({
+      lastSeen: { $gt: now - 180 },
+    });
+    const users = await User.find({ lastSeen: { $gt: now - 180 } })
+      .select(data.join(' '))
+      .skip(20 * (currentPage - 1))
+      .limit(20)
+      .lean();
+    return res.json({
+      message: 'Users Fetched',
+      totalCount,
+      users,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
 };
 
-exports.getUsersByType = async (req, res, next) => {};
+exports.getIdleUsers = async (req, res, next) => {
+  try {
+    const now = Date.now() / 1000;
+    const data = [
+      'firstName',
+      'lastName',
+      'email',
+      'username',
+      'state',
+      'role',
+      'lastSeen',
+      'banned',
+      'adminVerified',
+    ];
+    const currentPage = +req.query.page + 1 || 0;
+    const totalCount = await User.countDocuments({
+      lastSeen: { $lt: now - 180, $gte: now - 300 },
+    });
+    const users = await User.find({
+      lastSeen: { $lt: now - 180, $gte: now - 300 },
+    })
+      .select(data.join(' '))
+      .skip(20 * (currentPage - 1))
+      .limit(20)
+      .lean();
+    return res.json({
+      message: 'Users Fetched',
+      totalCount,
+      users,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
 
-exports.getUsersByProfile = async (req, res, next) => {};
+exports.getOfflineUsers = async (req, res, next) => {
+  try {
+    const now = Date.now() / 1000;
+    const data = [
+      'firstName',
+      'lastName',
+      'email',
+      'username',
+      'state',
+      'role',
+      'lastSeen',
+      'banned',
+      'adminVerified',
+    ];
+    const currentPage = +req.query.page + 1 || 0;
+    const totalCount = await User.countDocuments({
+      lastSeen: { $lt: now - 300 },
+    });
+    const users = await User.find({ lastSeen: { $lt: now - 300 } })
+      .select(data.join(' '))
+      .skip(20 * (currentPage - 1))
+      .limit(20)
+      .lean();
+    return res.json({
+      message: 'Users Fetched',
+      totalCount,
+      users,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.getBannedUsers = async (req, res, next) => {
+  try {
+    const data = [
+      'firstName',
+      'lastName',
+      'email',
+      'username',
+      'state',
+      'role',
+      'lastSeen',
+      'banned',
+      'adminVerified',
+    ];
+    const currentPage = +req.query.page + 1 || 0;
+    const totalCount = await User.countDocuments({
+      banned: true,
+    });
+    const users = await User.find({
+      banned: true,
+    })
+      .select(data.join(' '))
+      .skip(20 * (currentPage - 1))
+      .limit(20)
+      .lean();
+    return res.json({
+      message: 'Users Fetched',
+      totalCount,
+      users,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.getAllAdmins = async (req, res, next) => {
+  try {
+    const data = [
+      'firstName',
+      'lastName',
+      'email',
+      'username',
+      'state',
+      'role',
+      'lastSeen',
+      'banned',
+      'adminVerified',
+    ];
+    const currentPage = +req.query.page + 1 || 0;
+    const totalCount = await User.countDocuments({
+      role: 'ADMIN',
+    });
+    const users = await User.find({
+      role: 'ADMIN',
+    })
+      .select(data.join(' '))
+      .skip(20 * (currentPage - 1))
+      .limit(20)
+      .lean();
+    return res.json({
+      message: 'Users Fetched',
+      totalCount,
+      users,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.getAdminVerifiedUsers = async (req, res, next) => {
+  try {
+    const data = [
+      'firstName',
+      'lastName',
+      'email',
+      'username',
+      'state',
+      'role',
+      'lastSeen',
+      'banned',
+      'adminVerified',
+    ];
+    const currentPage = +req.query.page + 1 || 0;
+    const totalCount = await User.countDocuments({
+      adminVerified: true,
+    });
+    const users = await User.find({
+      adminVerified: true,
+    })
+      .select(data.join(' '))
+      .skip(20 * (currentPage - 1))
+      .limit(20)
+      .lean();
+    return res.json({
+      message: 'Users Fetched',
+      totalCount,
+      users,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};

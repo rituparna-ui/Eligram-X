@@ -4,6 +4,7 @@ const https = require('https');
 const Post = require('./../models/post');
 const User = require('./../models/user');
 const Image = require('./../models/image');
+const PostReport = require('./../models/postReport');
 const errorBuilder = require('./../utls/error');
 
 exports.createPost = async (req, res, next) => {
@@ -92,6 +93,21 @@ exports.getFeed = async (req, res, next) => {
     return res.json({
       message: 'Feed fetched',
       feed: posts,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.postReport = async (req, res, next) => {
+  try {
+    const { post } = req.body;
+    const report = await PostReport.create({
+      reportedPost: post,
+      reportedBy: req.user._id,
+    });
+    return res.json({
+      message: 'Reported Successfully',
     });
   } catch (error) {
     return next(errorBuilder());

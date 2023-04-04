@@ -17,11 +17,7 @@
   <h2 class="mat-headline-4 mb-4">Status</h2>
   <div class="row">
     <div class="col-md-3 col-sm-6 col-12">
-      <a
-        [routerLink]="['/admin', 'users']"
-        [queryParams]="{ status: 'online' }"
-        class="card-link"
-      >
+      <a [routerLink]="['/admin', 'users', 'online']" class="card-link">
         <app-status-card
           title="Online"
           color="green"
@@ -30,11 +26,7 @@
       </a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <a
-        [routerLink]="['/admin', 'users']"
-        [queryParams]="{ status: 'idle' }"
-        class="card-link"
-      >
+      <a [routerLink]="['/admin', 'users', 'idle']" class="card-link">
         <app-status-card
           title="Idle"
           color="#da980c"
@@ -43,11 +35,7 @@
       ></a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <a
-        [routerLink]="['/admin', 'users']"
-        [queryParams]="{ status: 'offline' }"
-        class="card-link"
-      >
+      <a [routerLink]="['/admin', 'users', 'offline']" class="card-link">
         <app-status-card
           title="Offline"
           color="red"
@@ -61,7 +49,7 @@
   <h2 class="mat-headline-4 mb-4">Users</h2>
   <div class="row">
     <div class="col-md-3 col-sm-6 col-12">
-      <a [routerLink]="['/admin', 'users']" class="card-link">
+      <a [routerLink]="['/admin', 'users', 'all']" class="card-link">
         <app-status-card
           title="All"
           color="green"
@@ -71,11 +59,7 @@
       ></a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <a
-        [routerLink]="['/admin', 'users']"
-        [queryParams]="{ users: 'banned' }"
-        class="card-link"
-      >
+      <a [routerLink]="['/admin', 'users', 'banned']" class="card-link">
         <app-status-card
           title="Banned"
           icon="remove_moderator"
@@ -85,11 +69,7 @@
       ></a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <a
-        [routerLink]="['/admin', 'users']"
-        [queryParams]="{ users: 'admins' }"
-        class="card-link"
-      >
+      <a [routerLink]="['/admin', 'users', 'admins']" class="card-link">
         <app-status-card
           title="Admins"
           color="green"
@@ -99,11 +79,7 @@
       ></a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <a
-        [routerLink]="['/admin', 'users']"
-        [queryParams]="{ users: 'admin-verified' }"
-        class="card-link"
-      >
+      <a [routerLink]="['/admin', 'users', 'admin-verified']" class="card-link">
         <app-status-card
           title="Admin Verified"
           color="green"
@@ -118,11 +94,7 @@
   <h2 class="mat-headline-4 mb-4">Profiles</h2>
   <div class="row">
     <div class="col-md-3 col-sm-6 col-12">
-      <a
-        [routerLink]="['/admin', 'users']"
-        [queryParams]="{ profile: 'complete' }"
-        class="card-link"
-      >
+      <a [routerLink]="['/admin', 'users', 'complete']" class="card-link">
         <app-status-card
           title="Complete"
           color="teal"
@@ -132,11 +104,7 @@
       ></a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <a
-        [routerLink]="['/admin', 'users']"
-        [queryParams]="{ profile: 'email-verified' }"
-        class="card-link"
-      >
+      <a [routerLink]="['/admin', 'users', 'verified']" class="card-link">
         <app-status-card
           title="Email Verified"
           color="green"
@@ -146,11 +114,7 @@
       ></a>
     </div>
     <div class="col-md-3 col-sm-6 col-12">
-      <a
-        [routerLink]="['/admin', 'users']"
-        [queryParams]="{ profile: 'email-unverified' }"
-        class="card-link"
-      >
+      <a [routerLink]="['/admin', 'users', 'unverified']" class="card-link">
         <app-status-card
           title="Email Unverified"
           color="red"
