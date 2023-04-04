@@ -1,7 +1,22 @@
 <div class="container" style="height: 100%">
-  rituparna
-  <div *ngFor="let session of userSessions; let i = index">
-    {{ session[keys[i]] | json }}
-    <button mat-button>Revoke</button>
+  <h2>Session Management</h2>
+  <div class="d-flex">
+    <div *ngFor="let session of userSessions; let i = index">
+      <mat-card class="p-4 m-2">
+        <div><b>IP Address:</b> {{ session[keys[0]].ip }}</div>
+        <div>
+          <b>Browser</b> {{ session[keys[0]].browser }}
+          {{ session[keys[0]].version }}
+        </div>
+        <div><b>Operating System: </b> {{ session[keys[0]].os }}</div>
+        <div><b>Platform: </b> {{ session[keys[0]].platform }}</div>
+        <br />
+        <button mat-raised-button color="primary">Revoke</button>
+      </mat-card>
+    </div>
   </div>
+  <br />
+  <mat-divider></mat-divider>
+  <br />
+  <h2>Two Factor Authentication</h2>
 </div>
