@@ -11,6 +11,7 @@ const {
   getProfileCompleteUsers,
   getEmailVerifiedUsers,
   getUnverifiedUsers,
+  getPostReports,
 } = require('../controllers/admin');
 const router = express.Router();
 
@@ -35,5 +36,7 @@ router.get('/users/complete', getProfileCompleteUsers);
 router.get('/users/verified', getEmailVerifiedUsers);
 
 router.get('/users/unverified', getUnverifiedUsers);
+
+router.get('/reports/posts', getPostReports);
 
 module.exports = router;

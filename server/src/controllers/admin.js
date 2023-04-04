@@ -401,3 +401,80 @@ exports.getUnverifiedUsers = async (req, res, next) => {
     return next(errorBuilder());
   }
 };
+
+exports.getPostReports = async (req, res, next) => {
+  try {
+    const reports = await PostReport.aggregate([
+      {
+        $lookup: {
+          from: 'posts',
+          localField: 'reportedPost',
+          foreignField: '_id',
+          as: 'post',
+        },
+      },
+      {
+        $project: {
+          post: { $first: '$post' },
+          reportedBy: 1,
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'reportedBy',
+          foreignField: '_id',
+          as: 'reportedBy',
+        },
+      },
+      {
+        $project: {
+          reportedBy: { $first: '$reportedBy' },
+          post: 1,
+          author: '$post.author',
+        },
+      },
+      {
+        $lookup: {
+          from: 'users',
+          localField: 'author',
+          foreignField: '_id',
+          as: 'author',
+        },
+      },
+      {
+        $project: {
+          author: { $first: '$author' },
+          post: 1,
+          reportedBy: 1,
+        },
+      },
+      {
+        $project: {
+          post: 1,
+          author: {
+            _id: '$author._id',
+            name: { $concat: ['$author.firstName', ' ', '$author.lastName'] },
+            role: '$author.role',
+            username: '$author.username',
+          },
+          reportedBy: {
+            _id: '$reportedBy._id',
+            name: {
+              $concat: ['$reportedBy.firstName', ' ', '$reportedBy.lastName'],
+            },
+            role: '$reportedBy.role',
+            username: '$reportedBy.username',
+          },
+        },
+      },
+    ]);
+    return res.json({
+      message: 'Post Reports fetched',
+      reports,
+    });
+  } catch (error) {
+    console.log(error);
+    return next(errorBuilder());
+  }
+};

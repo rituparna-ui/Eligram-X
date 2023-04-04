@@ -39,6 +39,7 @@ import { StatusCardComponent } from './components/admin/dashboard/status-card/st
 import { UsersComponent } from './components/admin/users/users.component';
 import { PostComponent } from './components/post/post/post.component';
 import { DatatableComponent } from './components/admin/datatable/datatable.component';
+import { PostsComponent } from './components/admin/reports/posts/posts.component';
 
 @NgModule({
   declarations: [
@@ -66,6 +67,7 @@ import { DatatableComponent } from './components/admin/datatable/datatable.compo
     UsersComponent,
     PostComponent,
     DatatableComponent,
+    PostsComponent,
   ],
   imports: [
     BrowserModule,

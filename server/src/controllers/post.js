@@ -102,7 +102,20 @@ exports.getFeed = async (req, res, next) => {
 exports.postReport = async (req, res, next) => {
   try {
     const { post } = req.body;
-    const report = await PostReport.create({
+    const report = await PostReport.findOne({
+      reportedPost: post,
+      reportedBy: req.user._id,
+    });
+    if (report) {
+      return next(
+        errorBuilder({
+          message: 'Post already reported',
+          errors: ['Post already reported'],
+          status: 400,
+        })
+      );
+    }
+    await PostReport.create({
       reportedPost: post,
       reportedBy: req.user._id,
     });
