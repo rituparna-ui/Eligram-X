@@ -75,8 +75,26 @@ export class DatatableComponent implements OnInit {
         this.totalCount = data.totalCount;
         this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
       });
+    } else if (filter === 'complete') {
+      this.adminService.getProfileCompleteUsers().subscribe((data) => {
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else if (filter === 'verified') {
+      this.adminService.getEmailVerifiedUsers().subscribe((data) => {
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
+    } else if (filter === 'unverified') {
+      this.adminService.getUnverifiedUsers().subscribe((data) => {
+        this.ELEMENT_DATA = data.users;
+        this.totalCount = data.totalCount;
+        this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+      });
     } else {
-      console.log('first');
+      console.log(filter);
     }
   }
 
@@ -157,8 +175,35 @@ export class DatatableComponent implements OnInit {
           this.totalCount = data.totalCount;
           this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
         });
+    } else if (filter === 'complete') {
+      this.adminService
+        .getProfileCompleteUsers(event.pageIndex)
+        .subscribe((data) => {
+          this.isLoading = false;
+          this.ELEMENT_DATA = data.users;
+          this.totalCount = data.totalCount;
+          this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+        });
+    } else if (filter === 'verified') {
+      this.adminService
+        .getEmailVerifiedUsers(event.pageIndex)
+        .subscribe((data) => {
+          this.isLoading = false;
+          this.ELEMENT_DATA = data.users;
+          this.totalCount = data.totalCount;
+          this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+        });
+    } else if (filter === 'unverified') {
+      this.adminService
+        .getUnverifiedUsers(event.pageIndex)
+        .subscribe((data) => {
+          this.isLoading = false;
+          this.ELEMENT_DATA = data.users;
+          this.totalCount = data.totalCount;
+          this.dataSource = new MatTableDataSource<User>(this.ELEMENT_DATA);
+        });
     } else {
-      console.log('first');
+      console.log(filter);
     }
   }
 }

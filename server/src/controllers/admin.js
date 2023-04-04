@@ -299,3 +299,105 @@ exports.getAdminVerifiedUsers = async (req, res, next) => {
     return next(errorBuilder());
   }
 };
+
+exports.getProfileCompleteUsers = async (req, res, next) => {
+  try {
+    const data = [
+      'firstName',
+      'lastName',
+      'email',
+      'username',
+      'state',
+      'role',
+      'lastSeen',
+      'banned',
+      'adminVerified',
+    ];
+    const currentPage = +req.query.page + 1 || 0;
+    const totalCount = await User.countDocuments({
+      state: 0,
+    });
+    const users = await User.find({
+      state: 0,
+    })
+      .select(data.join(' '))
+      .skip(20 * (currentPage - 1))
+      .limit(20)
+      .lean();
+    return res.json({
+      message: 'Users Fetched',
+      totalCount,
+      users,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.getEmailVerifiedUsers = async (req, res, next) => {
+  try {
+    const data = [
+      'firstName',
+      'lastName',
+      'email',
+      'username',
+      'state',
+      'role',
+      'lastSeen',
+      'banned',
+      'adminVerified',
+    ];
+    const currentPage = +req.query.page + 1 || 0;
+    const totalCount = await User.countDocuments({
+      state: 1,
+    });
+    const users = await User.find({
+      state: 1,
+    })
+      .select(data.join(' '))
+      .skip(20 * (currentPage - 1))
+      .limit(20)
+      .lean();
+    return res.json({
+      message: 'Users Fetched',
+      totalCount,
+      users,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.getUnverifiedUsers = async (req, res, next) => {
+  try {
+    const data = [
+      'firstName',
+      'lastName',
+      'email',
+      'username',
+      'state',
+      'role',
+      'lastSeen',
+      'banned',
+      'adminVerified',
+    ];
+    const currentPage = +req.query.page + 1 || 0;
+    const totalCount = await User.countDocuments({
+      state: 2,
+    });
+    const users = await User.find({
+      state: 2,
+    })
+      .select(data.join(' '))
+      .skip(20 * (currentPage - 1))
+      .limit(20)
+      .lean();
+    return res.json({
+      message: 'Users Fetched',
+      totalCount,
+      users,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};

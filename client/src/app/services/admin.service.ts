@@ -85,4 +85,34 @@ export class AdminService {
       params: new HttpParams().append('page', page || 0),
     });
   }
+
+  getProfileCompleteUsers(page?: number) {
+    return this.http.get<{
+      message: string;
+      users: User[];
+      totalCount: number;
+    }>(this.API + '/admin/users/complete', {
+      params: new HttpParams().append('page', page || 0),
+    });
+  }
+
+  getEmailVerifiedUsers(page?: number) {
+    return this.http.get<{
+      message: string;
+      users: User[];
+      totalCount: number;
+    }>(this.API + '/admin/users/verified', {
+      params: new HttpParams().append('page', page || 0),
+    });
+  }
+
+  getUnverifiedUsers(page?: number) {
+    return this.http.get<{
+      message: string;
+      users: User[];
+      totalCount: number;
+    }>(this.API + '/admin/users/unverified', {
+      params: new HttpParams().append('page', page || 0),
+    });
+  }
 }

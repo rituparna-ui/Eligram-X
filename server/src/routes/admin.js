@@ -8,6 +8,9 @@ const {
   getBannedUsers,
   getAllAdmins,
   getAdminVerifiedUsers,
+  getProfileCompleteUsers,
+  getEmailVerifiedUsers,
+  getUnverifiedUsers,
 } = require('../controllers/admin');
 const router = express.Router();
 
@@ -26,5 +29,11 @@ router.get('/users/banned', getBannedUsers);
 router.get('/users/admins', getAllAdmins);
 
 router.get('/users/admin-verified', getAdminVerifiedUsers);
+
+router.get('/users/complete', getProfileCompleteUsers);
+
+router.get('/users/verified', getEmailVerifiedUsers);
+
+router.get('/users/unverified', getUnverifiedUsers);
 
 module.exports = router;
