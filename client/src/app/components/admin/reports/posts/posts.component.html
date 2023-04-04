@@ -39,10 +39,18 @@
       <br />
       <div class="d-flex justify-content-between">
         <div>
-          <button mat-raised-button color="primary">Delete Post</button>
+          <button
+            mat-raised-button
+            color="primary"
+            (click)="deletePost(report.post._id)"
+          >
+            Delete Post
+          </button>
         </div>
         <div>
-          <button mat-stroked-button>Ban Author</button>
+          <button mat-stroked-button (click)="banAuthor(report.author._id)">
+            Ban Author
+          </button>
         </div>
         <div>
           <button

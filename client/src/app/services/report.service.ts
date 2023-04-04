@@ -24,4 +24,19 @@ export class ReportService {
       }
     );
   }
+
+  deletePost(postId: string) {
+    return this.http.post<{ message: string }>(
+      this.API + '/admin/reports/posts/delete',
+      {
+        postId,
+      }
+    );
+  }
+
+  banAuthor(userId: string) {
+    return this.http.post<{ message: string }>(this.API + '/admin/users/ban', {
+      userId,
+    });
+  }
 }

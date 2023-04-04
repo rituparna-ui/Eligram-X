@@ -1,8 +1,10 @@
 const errorBuilder = require('./../utls/error');
 
 const User = require('./../models/user');
+const Post = require('./../models/post');
 const PostReport = require('./../models/postReport');
 const UserReport = require('./../models/userReport');
+const mongoose = require('mongoose');
 
 exports.getDashboard = async (req, res, next) => {
   try {
@@ -488,5 +490,37 @@ exports.dismissPostReport = async (req, res, next) => {
     });
   } catch (error) {
     return next(errorBuilder());
+  }
+};
+
+exports.banUser = async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+    await User.updateOne({ _id: userId }, { $set: { banned: true } });
+    return res.json({
+      message: 'User Banned',
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.deletePost = async (req, res, next) => {
+  const session = await mongoose.startSession();
+  try {
+    session.startTransaction();
+    const { postId } = req.body;
+    await Post.deleteOne({ _id: postId }, { session });
+    await PostReport.deleteMany({ reportedPost: postId }, { session });
+    await session.commitTransaction();
+    return res.json({
+      message: 'Post Deleted',
+    });
+  } catch (error) {
+    console.log(error);
+    await session.abortTransaction();
+    return next(errorBuilder());
+  } finally {
+    session.endSession();
   }
 };

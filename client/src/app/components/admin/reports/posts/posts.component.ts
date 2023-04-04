@@ -32,4 +32,17 @@ export class PostsComponent implements OnInit {
       this.fetchPendingReports();
     });
   }
+  banAuthor(authorId: string) {
+    this.reportService.banAuthor(authorId).subscribe(() => {
+      this.snackbar.open('Author Banned', 'Okay !', { duration: 1500 });
+    });
+  }
+
+  deletePost(postId: string) {
+    this.reportService.deletePost(postId).subscribe(() => {
+      this.snackbar.open('Post and all related reports deleted', 'Okay !', {
+        duration: 1500,
+      });
+    });
+  }
 }

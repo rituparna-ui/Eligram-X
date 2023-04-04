@@ -13,6 +13,8 @@ const {
   getUnverifiedUsers,
   getPostReports,
   dismissPostReport,
+  deletePost,
+  banUser,
 } = require('../controllers/admin');
 const router = express.Router();
 
@@ -41,5 +43,9 @@ router.get('/users/unverified', getUnverifiedUsers);
 router.get('/reports/posts', getPostReports);
 
 router.post('/reports/posts/dismiss', dismissPostReport);
+
+router.post('/reports/posts/delete', deletePost);
+
+router.post('/users/ban', banUser);
 
 module.exports = router;
