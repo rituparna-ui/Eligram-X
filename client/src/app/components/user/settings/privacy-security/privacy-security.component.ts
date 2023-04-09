@@ -1,6 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'src/app/services/auth.service';
 
+interface Session {
+  browser: string;
+  ip: string;
+  os: string;
+  platform: string;
+  version: string;
+}
 @Component({
   selector: 'app-privacy-security',
   templateUrl: './privacy-security.component.html',
@@ -8,13 +15,7 @@ import { AuthService } from 'src/app/services/auth.service';
 })
 export class PrivacySecurityComponent implements OnInit {
   userSessions: {
-    [key: string]: {
-      browser: string;
-      ip: string;
-      os: string;
-      platform: string;
-      version: string;
-    };
+    [key: string]: Session;
   }[] = [];
 
   keys: string[] = [];
@@ -30,5 +31,10 @@ export class PrivacySecurityComponent implements OnInit {
       this.keys = keys;
       console.log(this.keys);
     });
+  }
+
+  revoke(session: any) {
+    const token = Object.keys(session)[0];
+    this.authService.revokeToken(token);
   }
 }

@@ -204,4 +204,12 @@ export class AuthService {
       },
     });
   }
+
+  revokeToken(token: string) {
+    this.http
+      .post<AuthResponse>(this.API + '/auth/revoke', { token })
+      .subscribe((res) => {
+        this.snackBar.open(res.message, '', { duration: 2000 });
+      });
+  }
 }

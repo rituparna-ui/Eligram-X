@@ -11,7 +11,7 @@
         <div><b>Operating System: </b> {{ session[keys[0]].os }}</div>
         <div><b>Platform: </b> {{ session[keys[0]].platform }}</div>
         <br />
-        <button mat-raised-button color="primary">Revoke</button>
+        <button mat-raised-button color="primary" (click)="revoke(session)">Revoke</button>
       </mat-card>
     </div>
   </div>

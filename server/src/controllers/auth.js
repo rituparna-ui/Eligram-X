@@ -637,3 +637,27 @@ exports.getUserSessions = async (req, res, next) => {
     return next(errorBuilder());
   }
 };
+
+exports.revokeToken = async (req, res, next) => {
+  const token = req.body.token;
+  const rToken = await getRedis().GET(token);
+  if (!rToken) {
+    return res.status(200).json({
+      message: 'Logged Out',
+    });
+  }
+  const payload = jwt.decode(token);
+  const userSessions = await getRedis().json.GET('user:sessions:' + payload.id);
+  newSessions = userSessions.sessions.filter((sessionToken) => {
+    return Object.keys(sessionToken)[0] != token;
+  });
+  await getRedis().json.SET(
+    'user:sessions:' + payload.id,
+    'sessions',
+    newSessions
+  );
+  await getRedis().DEL(token);
+  return res.status(200).json({
+    message: 'Logged Out',
+  });
+};
