@@ -115,4 +115,67 @@ export class AdminService {
       params: new HttpParams().append('page', page || 0),
     });
   }
+
+  banUser(id: string) {
+    return this.http.post<{ message: string; status: number }>(
+      this.API + '/admin/users/ban',
+      {
+        userId: id,
+      }
+    );
+  }
+
+  unbanUser(id: string) {
+    return this.http.post<{ message: string; status: number }>(
+      this.API + '/admin/users/unban',
+      {
+        userId: id,
+      }
+    );
+  }
+
+  deleteUser(id: string) {
+    return this.http.post<{ message: string; status: number }>(
+      this.API + '/admin/users/delete',
+      {
+        userId: id,
+      }
+    );
+  }
+
+  setAdminVerified(id: string) {
+    return this.http.post<{ message: string; status: number }>(
+      this.API + '/admin/users/admin-verify',
+      {
+        userId: id,
+      }
+    );
+  }
+
+  unsetAdminVerified(id: string) {
+    return this.http.post<{ message: string; status: number }>(
+      this.API + '/admin/users/admin-unverify',
+      {
+        userId: id,
+      }
+    );
+  }
+
+  promoteUser(id: string) {
+    return this.http.post<{ message: string; status: number }>(
+      this.API + '/admin/users/promote',
+      {
+        userId: id,
+      }
+    );
+  }
+
+  demoteUser(id: string) {
+    return this.http.post<{ message: string; status: number }>(
+      this.API + '/admin/users/demote',
+      {
+        userId: id,
+      }
+    );
+  }
 }

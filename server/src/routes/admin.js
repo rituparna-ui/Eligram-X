@@ -15,6 +15,12 @@ const {
   dismissPostReport,
   deletePost,
   banUser,
+  unbanUser,
+  deleteUser,
+  adminVerify,
+  adminUnVerify,
+  promoteUser,
+  demoteUser,
 } = require('../controllers/admin');
 const router = express.Router();
 
@@ -47,5 +53,17 @@ router.post('/reports/posts/dismiss', dismissPostReport);
 router.post('/reports/posts/delete', deletePost);
 
 router.post('/users/ban', banUser);
+
+router.post('/users/unban', unbanUser);
+
+router.post('/users/delete', deleteUser);
+
+router.post('/users/admin-verify', adminVerify);
+
+router.post('/users/admin-unverify', adminUnVerify);
+
+router.post('/users/promote', promoteUser);
+
+router.post('/users/demote', demoteUser);
 
 module.exports = router;

@@ -4,6 +4,8 @@ import {
   MatPaginatorIntl,
   PageEvent,
 } from '@angular/material/paginator';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { AdminService } from 'src/app/services/admin.service';
@@ -28,7 +30,8 @@ export interface User {
 export class DatatableComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
-    private adminService: AdminService
+    private adminService: AdminService,
+    private snackbar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -205,5 +208,47 @@ export class DatatableComponent implements OnInit {
     } else {
       console.log(filter);
     }
+  }
+
+  banUser(id: string) {
+    this.adminService.banUser(id).subscribe((data) => {
+      this.snackbar.open(data.message, '', { duration: 1500 });
+    });
+  }
+
+  unbanUser(id: string) {
+    this.adminService.unbanUser(id).subscribe((data) => {
+      this.snackbar.open(data.message, '', { duration: 1500 });
+    });
+  }
+
+  deleteUser(id: string) {
+    this.adminService.deleteUser(id).subscribe((data) => {
+      this.snackbar.open(data.message, '', { duration: 1500 });
+    });
+  }
+
+  toggleAdminVerify(event: MatSlideToggleChange, id: string) {
+    if (event.checked == true) {
+      this.adminService.setAdminVerified(id).subscribe((data) => {
+        this.snackbar.open(data.message, '', { duration: 1500 });
+      });
+    } else {
+      this.adminService.unsetAdminVerified(id).subscribe((data) => {
+        this.snackbar.open(data.message, '', { duration: 1500 });
+      });
+    }
+  }
+
+  promote(id: string) {
+    this.adminService.promoteUser(id).subscribe((data) => {
+      this.snackbar.open(data.message, '', { duration: 1500 });
+    });
+  }
+
+  demote(id: string) {
+    this.adminService.demoteUser(id).subscribe((data) => {
+      this.snackbar.open(data.message, '', { duration: 1500 });
+    });
   }
 }

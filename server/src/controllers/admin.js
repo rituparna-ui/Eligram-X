@@ -505,6 +505,18 @@ exports.banUser = async (req, res, next) => {
   }
 };
 
+exports.unbanUser = async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+    await User.updateOne({ _id: userId }, { $set: { banned: false } });
+    return res.json({
+      message: 'User unbanned',
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
 exports.deletePost = async (req, res, next) => {
   const session = await mongoose.startSession();
   try {
@@ -522,5 +534,70 @@ exports.deletePost = async (req, res, next) => {
     return next(errorBuilder());
   } finally {
     session.endSession();
+  }
+};
+
+exports.deleteUser = async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+    await User.deleteOne({ _id: userId });
+    return res.json({
+      message: 'User Deleted',
+    });
+  } catch (error) {
+    console.log(error);
+    return next(errorBuilder());
+  }
+};
+
+exports.adminVerify = async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+    await User.updateOne({ _id: userId }, { $set: { adminVerified: true } });
+    return res.json({
+      message: 'User is now a trusted user',
+      status: 200,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.adminUnVerify = async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+    await User.updateOne({ _id: userId }, { $set: { adminVerified: false } });
+    return res.json({
+      message: 'User admin unverified',
+      status: 200,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.promoteUser = async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+    await User.updateOne({ _id: userId }, { $set: { role: 'ADMIN' } });
+    return res.json({
+      message: 'User promoted to ADMIN',
+      status: 200,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.demoteUser = async (req, res, next) => {
+  try {
+    const { userId } = req.body;
+    await User.updateOne({ _id: userId }, { $set: { role: 'USER' } });
+    return res.json({
+      message: 'User demoted to USER',
+      status: 200,
+    });
+  } catch (error) {
+    return next(errorBuilder());
   }
 };

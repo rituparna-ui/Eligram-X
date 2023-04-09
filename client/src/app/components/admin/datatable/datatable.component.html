@@ -34,7 +34,10 @@
       <ng-container matColumnDef="adminVerified">
         <th mat-header-cell *matHeaderCellDef>Admin Verified</th>
         <td mat-cell *matCellDef="let element">
-          <mat-slide-toggle [checked]="element.adminVerified">
+          <mat-slide-toggle
+            [checked]="element.adminVerified"
+            (change)="toggleAdminVerify($event, element._id)"
+          >
           </mat-slide-toggle>
         </td>
       </ng-container>
@@ -53,17 +56,44 @@
             <mat-icon>more_vert</mat-icon>
           </button>
           <mat-menu #menu="matMenu">
-            <button mat-menu-item>
-              <mat-icon>dialpad</mat-icon>
-              <span>Redial</span>
+            <button
+              mat-menu-item
+              *ngIf="element.role == 'USER'"
+              (click)="promote(element._id)"
+            >
+              <mat-icon style="color: green">add_moderator</mat-icon>
+              <span>Promote</span>
             </button>
-            <button mat-menu-item disabled>
-              <mat-icon>voicemail</mat-icon>
-              <span>Check voice mail</span>
+            <button
+              mat-menu-item
+              *ngIf="element.role == 'ADMIN'"
+              (click)="demote(element._id)"
+            >
+              <mat-icon style="color: rgb(216, 0, 0)"
+                >remove_moderator</mat-icon
+              >
+              <span>Demote</span>
             </button>
-            <button mat-menu-item>
-              <mat-icon>notifications_off</mat-icon>
-              <span>Disable alerts</span>
+            <mat-divider></mat-divider>
+            <button
+              mat-menu-item
+              (click)="banUser(element._id)"
+              *ngIf="!element.banned"
+            >
+              <mat-icon>block</mat-icon>
+              <span>Ban User</span>
+            </button>
+            <button
+              mat-menu-item
+              (click)="unbanUser(element._id)"
+              *ngIf="element.banned"
+            >
+              <mat-icon>manage_history</mat-icon>
+              <span>UnBan User</span>
+            </button>
+            <button mat-menu-item (click)="deleteUser(element._id)">
+              <mat-icon style="color: rgb(216, 0, 0)">delete</mat-icon>
+              <span>Delete User</span>
             </button>
           </mat-menu>
         </td>
