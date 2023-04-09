@@ -142,6 +142,15 @@ exports.login = async (req, res, next) => {
         })
       );
     }
+    if (user.is2FAEnabled) {
+      const token = jwt.sign({ id: user._id }, 'secret');
+      return res.json({
+        message: '2FA is enabled. Please verify OTP',
+        status: 200,
+        token,
+        tfa: true,
+      });
+    }
     const token = jwt.sign(
       { id: user._id, state: user.state, role: user.role },
       'secret'
@@ -751,5 +760,64 @@ exports.twoFactorDisable = async (req, res, next) => {
     });
   } catch (error) {
     return next(errorBuilder());
+  }
+};
+
+exports.verify2faAndLogin = async (req, res, next) => {
+  try {
+    const { totp, token: verifyToken } = req.body;
+    const payload = jwt.verify(verifyToken, 'secret');
+    const user = await User.findOne({ _id: payload.id });
+    const verify = speakeasy.totp.verify({
+      secret: user.speakeasyDetails.base32,
+      token: totp,
+      encoding: 'base32',
+    });
+    if (!verify) {
+      return res.json({
+        errors: ['Invalid OTP'],
+        status: 401,
+        message: 'Invalid OTP',
+      });
+    }
+    const token = jwt.sign(
+      { id: user._id, state: user.state, role: user.role },
+      'secret'
+    );
+    const newSession = {
+      ip: req.ip,
+      browser: req.useragent.browser,
+      version: req.useragent.version,
+      os: req.useragent.os,
+      platform: req.useragent.platform,
+    };
+
+    await getRedis().set(token, user._id.toString());
+
+    const existingSessions = await getRedis().json.get(
+      'user:sessions:' + user._id
+    );
+
+    if (!existingSessions) {
+      await getRedis().json.SET('user:sessions:' + user._id, '.', {
+        sessions: [{ [token]: newSession }],
+      });
+    } else {
+      await getRedis().json.ARRAPPEND('user:sessions:' + user._id, 'sessions', {
+        [token]: newSession,
+      });
+    }
+
+    return res.status(200).json({
+      message: 'Logged in successfully',
+      status: 200,
+      token,
+    });
+  } catch (error) {
+    console.log(error);
+    return res.json({
+      message: 'Invalid Request',
+      status: 400,
+    });
   }
 };

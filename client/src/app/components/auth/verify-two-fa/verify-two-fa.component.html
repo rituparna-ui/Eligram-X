@@ -1,0 +1,18 @@
+<div class="container">
+  <h2 class="text-center">Enter 2FA OTP</h2>
+  <div class="text-center">
+    <mat-form-field class="example-form-field" appearance="outline">
+      <mat-label>TOTP</mat-label>
+      <input
+        type="number"
+        matInput
+        min="100000"
+        max="999999"
+        [(ngModel)]="totp"
+      />
+    </mat-form-field>
+    <br />
+    <br />
+    <button mat-raised-button color="primary" (click)="verify2FALogin()">Login</button>
+  </div>
+</div>

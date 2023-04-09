@@ -10,6 +10,7 @@ export interface AuthResponse {
   message: string;
   status: number;
   token: string;
+  tfa?: boolean;
 }
 
 export interface LoginForm {

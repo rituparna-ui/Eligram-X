@@ -19,6 +19,7 @@ import { AnonymousGuard } from './guards/anonymous.guard';
 import { AuthGuard } from './guards/auth.guard';
 import { CompleteProfileGuard } from './guards/complete-profile.guard';
 import { VerifyEmailGuard } from './guards/verify-email.guard';
+import { VerifyTwoFaComponent } from './components/auth/verify-two-fa/verify-two-fa.component';
 
 const routes: Routes = [
   { path: '', component: FeedComponent, canActivate: [AuthGuard] },
@@ -54,6 +55,10 @@ const routes: Routes = [
         path: 'discord',
         component: DiscordComponent,
         canActivate: [AuthGuard],
+      },
+      {
+        path: 'verify-2fa',
+        component: VerifyTwoFaComponent,
       },
     ],
   },

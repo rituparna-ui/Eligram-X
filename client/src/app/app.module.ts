@@ -41,6 +41,7 @@ import { PostComponent } from './components/post/post/post.component';
 import { DatatableComponent } from './components/admin/datatable/datatable.component';
 import { PostsComponent } from './components/admin/reports/posts/posts.component';
 import { TwoFactorModalComponent } from './components/user/settings/privacy-security/two-factor-modal/two-factor-modal.component';
+import { VerifyTwoFaComponent } from './components/auth/verify-two-fa/verify-two-fa.component';
 
 @NgModule({
   declarations: [
@@ -70,6 +71,7 @@ import { TwoFactorModalComponent } from './components/user/settings/privacy-secu
     DatatableComponent,
     PostsComponent,
     TwoFactorModalComponent,
+    VerifyTwoFaComponent,
   ],
   imports: [
     BrowserModule,

@@ -19,6 +19,7 @@ const {
   twoFactorRequest,
   twoFactorEnable,
   twoFactorDisable,
+  verify2faAndLogin,
 } = require('../controllers/auth');
 const auth = require('../middlewares/auth');
 const verifyJwt = require('../middlewares/verify-jwt');
@@ -141,5 +142,7 @@ router.post('/two-factor-request', verifyJwt(), twoFactorRequest);
 router.post('/two-factor-enable', verifyJwt(), twoFactorEnable);
 
 router.post('/two-factor-disable', verifyJwt(), twoFactorDisable);
+
+router.post('/verify-2fa', verify2faAndLogin);
 
 module.exports = router;

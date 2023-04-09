@@ -93,9 +93,17 @@ export class AuthService {
     this.http
       .post<AuthResponse>(this.API + '/auth/login', user)
       .subscribe((res) => {
-        this.snackBar.open(res.message, '', { duration: 2000 });
-        this.postLogin(res.token);
-        this.router.navigate(['/']);
+        if (res.tfa) {
+          this.router.navigate(['/auth', 'verify-2fa'], {
+            queryParams: {
+              token: res.token,
+            },
+          });
+        } else {
+          this.snackBar.open(res.message, '', { duration: 2000 });
+          this.postLogin(res.token);
+          this.router.navigate(['/']);
+        }
       });
   }
 
@@ -235,6 +243,16 @@ export class AuthService {
     return this.http.post<{ message: string }>(
       this.API + '/auth/two-factor-disable',
       {}
+    );
+  }
+
+  verify2FALogin(totp: number, token: string) {
+    return this.http.post<{ message: string; status: number; token: string }>(
+      this.API + '/auth/verify-2fa',
+      {
+        totp,
+        token,
+      }
     );
   }
 }
