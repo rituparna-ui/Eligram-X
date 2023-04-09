@@ -120,6 +120,16 @@ exports.login = async (req, res, next) => {
         })
       );
     }
+    if (user.banned) {
+      return next(
+        errorBuilder({
+          message: 'You are banned! Please contact Admins',
+          status: 404,
+          errors: ['You are banned! Please contact Admins'],
+        })
+      );
+    }
+
     const isPasswordCorrect = await bcrypt.compare(password, user.password);
     if (!isPasswordCorrect) {
       return next(
@@ -660,4 +670,18 @@ exports.revokeToken = async (req, res, next) => {
   return res.status(200).json({
     message: 'Logged Out',
   });
+};
+
+exports.getTwoFactorAuthStatus = async (req, res, next) => {
+  try {
+    return res.json({
+      status: req.user.is2FAEnabled,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.twoFactorRequest = async (req, res, next) => {
+  
 };

@@ -19,6 +19,7 @@ export class PrivacySecurityComponent implements OnInit {
   }[] = [];
 
   keys: string[] = [];
+  twoFAStatus: boolean = false;
 
   constructor(private authService: AuthService) {}
   ngOnInit(): void {
@@ -31,10 +32,19 @@ export class PrivacySecurityComponent implements OnInit {
       this.keys = keys;
       console.log(this.keys);
     });
+    this.authService.getTwoFactorAuthStatus().subscribe((data) => {
+      this.twoFAStatus = data.status;
+    });
   }
 
   revoke(session: any) {
     const token = Object.keys(session)[0];
     this.authService.revokeToken(token);
+  }
+
+  enable2faRequest() {
+    this.authService.enable2faRequest().subscribe((data) => {
+      console.log(data);
+    });
   }
 }

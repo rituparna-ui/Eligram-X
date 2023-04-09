@@ -23,6 +23,13 @@ const discordSchema = new mongoose.Schema({
   verified: { type: Boolean, required: true },
 });
 
+const speakeasySchema = new mongoose.Schema({
+  ascii: { type: String, required: true },
+  hex: { type: String, required: true },
+  base32: { type: String, required: true },
+  otpauth_url: { type: String, required: true },
+});
+
 const userSchema = new mongoose.Schema(
   {
     firstName: { type: String, required: true },
@@ -76,6 +83,11 @@ const userSchema = new mongoose.Schema(
     lastSeen: { type: Number, default: Date.now() / 1000, required: true },
     banned: { type: Boolean, default: false, required: true },
     adminVerified: { type: Boolean, default: false, required: true },
+    is2FAEnabled: { type: Boolean, required: true, default: false },
+    speakeasyDetails: {
+      type: speakeasySchema,
+      required: true,
+    },
   },
   { timestamps: true }
 );

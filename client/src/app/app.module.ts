@@ -40,6 +40,7 @@ import { UsersComponent } from './components/admin/users/users.component';
 import { PostComponent } from './components/post/post/post.component';
 import { DatatableComponent } from './components/admin/datatable/datatable.component';
 import { PostsComponent } from './components/admin/reports/posts/posts.component';
+import { TwoFactorModalComponent } from './components/user/settings/privacy-security/two-factor-modal/two-factor-modal.component';
 
 @NgModule({
   declarations: [
@@ -68,6 +69,7 @@ import { PostsComponent } from './components/admin/reports/posts/posts.component
     PostComponent,
     DatatableComponent,
     PostsComponent,
+    TwoFactorModalComponent,
   ],
   imports: [
     BrowserModule,

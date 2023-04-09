@@ -15,6 +15,8 @@ const {
   getUserSessions,
   disconnectDiscord,
   revokeToken,
+  getTwoFactorAuthStatus,
+  twoFactorRequest,
 } = require('../controllers/auth');
 const auth = require('../middlewares/auth');
 const verifyJwt = require('../middlewares/verify-jwt');
@@ -128,6 +130,10 @@ router.post('/discord', auth(), connectDiscord);
 
 router.get('/sessions', verifyJwt(), getUserSessions);
 
+router.get('/twofa-status', verifyJwt(), getTwoFactorAuthStatus);
+
 router.post('/revoke', auth(), revokeToken);
+
+router.post('/two-factor-request', verifyJwt(), twoFactorRequest);
 
 module.exports = router;

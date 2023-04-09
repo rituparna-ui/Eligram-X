@@ -189,6 +189,10 @@ export class AuthService {
     }>(this.API + '/auth/sessions');
   }
 
+  getTwoFactorAuthStatus() {
+    return this.http.get<{ status: boolean }>(this.API + '/auth/twofa-status');
+  }
+
   disconnectDiscord() {
     const dialogRef = this.dialog.open(LoadingModalComponent, {
       disableClose: true,
@@ -211,5 +215,9 @@ export class AuthService {
       .subscribe((res) => {
         this.snackBar.open(res.message, '', { duration: 2000 });
       });
+  }
+
+  enable2faRequest() {
+    return this.http.post(this.API + '/auth/two-factor-request', {});
   }
 }

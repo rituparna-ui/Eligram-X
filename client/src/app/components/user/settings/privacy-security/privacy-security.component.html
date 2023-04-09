@@ -3,15 +3,17 @@
   <div class="d-flex">
     <div *ngFor="let session of userSessions; let i = index">
       <mat-card class="p-4 m-2">
-        <div><b>IP Address:</b> {{ session[keys[0]].ip }}</div>
+        <div><b>IP Address:</b> {{ session[keys[i]].ip }}</div>
         <div>
-          <b>Browser</b> {{ session[keys[0]].browser }}
-          {{ session[keys[0]].version }}
+          <b>Browser</b> {{ session[keys[i]].browser }}
+          {{ session[keys[i]].version }}
         </div>
-        <div><b>Operating System: </b> {{ session[keys[0]].os }}</div>
-        <div><b>Platform: </b> {{ session[keys[0]].platform }}</div>
+        <div><b>Operating System: </b> {{ session[keys[i]].os }}</div>
+        <div><b>Platform: </b> {{ session[keys[i]].platform }}</div>
         <br />
-        <button mat-raised-button color="primary" (click)="revoke(session)">Revoke</button>
+        <button mat-raised-button color="primary" (click)="revoke(session)">
+          Revoke
+        </button>
       </mat-card>
     </div>
   </div>
@@ -19,4 +21,7 @@
   <mat-divider></mat-divider>
   <br />
   <h2>Two Factor Authentication</h2>
+  <button mat-raised-button color="primary" class="w-100" *ngIf="!twoFAStatus" (click)="enable2faRequest()">
+    Enable 2 Factor Authentication
+  </button>
 </div>
