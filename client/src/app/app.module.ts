@@ -10,7 +10,7 @@ import { MaterialModule } from './modules/material/material.module';
 import { LoginComponent } from './components/auth/login/login.component';
 import { SignupComponent } from './components/auth/signup/signup.component';
 import { FeedComponent } from './components/home/feed/feed.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
@@ -81,6 +81,7 @@ import { TwoFactorModalComponent } from './components/user/settings/privacy-secu
     HttpClientModule,
     MatNativeDateModule,
     SocialLoginModule,
+    FormsModule
   ],
   providers: [
     {

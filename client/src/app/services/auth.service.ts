@@ -218,6 +218,23 @@ export class AuthService {
   }
 
   enable2faRequest() {
-    return this.http.post(this.API + '/auth/two-factor-request', {});
+    return this.http.post<{ message: string; qr: string }>(
+      this.API + '/auth/two-factor-request',
+      {}
+    );
+  }
+
+  confirm2faRequest(otp: number) {
+    return this.http.post<{ message: string; success: boolean }>(
+      this.API + '/auth/two-factor-enable',
+      { otp }
+    );
+  }
+
+  disable2fa() {
+    return this.http.post<{ message: string }>(
+      this.API + '/auth/two-factor-disable',
+      {}
+    );
   }
 }

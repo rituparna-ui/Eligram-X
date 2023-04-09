@@ -17,6 +17,8 @@ const {
   revokeToken,
   getTwoFactorAuthStatus,
   twoFactorRequest,
+  twoFactorEnable,
+  twoFactorDisable,
 } = require('../controllers/auth');
 const auth = require('../middlewares/auth');
 const verifyJwt = require('../middlewares/verify-jwt');
@@ -135,5 +137,9 @@ router.get('/twofa-status', verifyJwt(), getTwoFactorAuthStatus);
 router.post('/revoke', auth(), revokeToken);
 
 router.post('/two-factor-request', verifyJwt(), twoFactorRequest);
+
+router.post('/two-factor-enable', verifyJwt(), twoFactorEnable);
+
+router.post('/two-factor-disable', verifyJwt(), twoFactorDisable);
 
 module.exports = router;

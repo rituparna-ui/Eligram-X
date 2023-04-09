@@ -21,7 +21,25 @@
   <mat-divider></mat-divider>
   <br />
   <h2>Two Factor Authentication</h2>
-  <button mat-raised-button color="primary" class="w-100" *ngIf="!twoFAStatus" (click)="enable2faRequest()">
+  <button
+    mat-raised-button
+    color="primary"
+    class="w-100"
+    *ngIf="!twoFAStatus"
+    (click)="enable2faRequest()"
+  >
     Enable 2 Factor Authentication
+  </button>
+  <h3 *ngIf="twoFAStatus">
+    Two Factor Authentication is enabled for your account
+  </h3>
+  <button
+    mat-raised-button
+    color="primary"
+    class="w-100"
+    *ngIf="twoFAStatus"
+    (click)="disable2fa()"
+  >
+    Click here to disable 2 Factor Authentication
   </button>
 </div>

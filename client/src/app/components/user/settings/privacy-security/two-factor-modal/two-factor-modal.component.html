@@ -1,1 +1,21 @@
-<p>two-factor-modal works!</p>
+<div class="container">
+  <div class="text-center">
+    <br />
+    Please scan the QR Code below using an authenticator app like Google
+    Authenticator, Microsoft Authenticator, Authy etc.
+    <img [src]="url" alt="2FA QR Code" />
+    <br />
+    <br />
+    <div>
+      <mat-form-field class="example-form-field" appearance="outline">
+        <mat-label>Enter OTP</mat-label>
+        <input type="number" matInput [(ngModel)]="otp" />
+      </mat-form-field>
+      <br />
+      <br />
+      <button mat-flat-button color="primary" (click)="passOtp()">
+        Enable
+      </button>
+    </div>
+  </div>
+</div>

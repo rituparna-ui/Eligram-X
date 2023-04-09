@@ -5,6 +5,8 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/user');
 const vcode = require('./../utls/vcode');
 const mailer = require('./../utls/mailer');
+const speakeasy = require('speakeasy');
+const qrcode = require('qrcode');
 const { OAuth2Client } = require('google-auth-library');
 
 const errorBuilder = require('./../utls/error');
@@ -683,5 +685,71 @@ exports.getTwoFactorAuthStatus = async (req, res, next) => {
 };
 
 exports.twoFactorRequest = async (req, res, next) => {
-  
+  const secret = speakeasy.generateSecret({
+    issuer: 'Eligram-X',
+    name: 'Eligram@' + req.user.firstName + ' ' + req.user.lastName,
+  });
+  try {
+    const qr = await qrcode.toDataURL(secret.otpauth_url);
+    await User.updateOne(
+      { _id: req.user._id },
+      {
+        $set: {
+          speakeasyDetails: secret,
+        },
+      }
+    );
+    return res.json({
+      message: 'Secret generated, Please verify',
+      qr,
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
+};
+
+exports.twoFactorEnable = async (req, res, next) => {
+  const { otp } = req.body;
+  const valid = speakeasy.totp.verify({
+    secret: req.user.speakeasyDetails.base32,
+    token: otp,
+    encoding: 'base32',
+    window: 2,
+  });
+  if (!valid) {
+    return res.json({
+      message: 'Invalid TOTP! Please retry',
+      success: false,
+    });
+  }
+  await User.updateOne(
+    { _id: req.user._id },
+    {
+      $set: {
+        is2FAEnabled: true,
+      },
+    }
+  );
+  return res.json({
+    message: '2 Factor Auth Enabled Successfully',
+    success: true,
+  });
+};
+
+exports.twoFactorDisable = async (req, res, next) => {
+  try {
+    await User.updateOne(
+      { _id: req.user._id },
+      {
+        $set: {
+          is2FAEnabled: false,
+        },
+      }
+    );
+    return res.json({
+      message: '2FA Disabled',
+    });
+  } catch (error) {
+    return next(errorBuilder());
+  }
 };
